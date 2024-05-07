@@ -38,20 +38,27 @@ const FullPage = ({ blog }) => {
 
 
   useEffect(() => {
-    const options = {
-      replace: ({ name, attribs, children }) => {
-        if (name === 'a') {
-          return (
-            <a href={attribs.href} className="text-blue-500 underline">
-              {domToReact(children, options)}
-            </a>
-          );
-        }
-      },
-    };
-  
-    setParsedContent(parse(blog.content, options));
+    if (blog) {
+      const options = {
+        replace: ({ name, attribs, children }) => {
+          if (name === 'a') {
+            return (
+              <a href={attribs.href} className="text-blue-500 underline">
+                {domToReact(children, options)}
+              </a>
+            );
+          }
+        },
+      };
+    
+      setParsedContent(parse(blog.content, options));
+    }
   }, [blog]);
+
+
+  if (!blog) {
+    return <div>Loading...</div>;
+  }
   
 
 
