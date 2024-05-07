@@ -6,7 +6,7 @@ import parse, { domToReact } from 'html-react-parser';
 
 
 export async function getStaticPaths() {
-  const res = await axios.get('https://lucy-test-rcm8s1oik-samsonkassadevs-projects.vercel.app/api/getPost');
+  const res = await axios.get('https://lucy-test.vercel.app/api/getPost');
   const blogs = res.data;
 
 
@@ -20,7 +20,7 @@ export async function getStaticPaths() {
 
 
 export async function getStaticProps({ params }) {
-  const res = await axios.get(`https://lucy-test-rcm8s1oik-samsonkassadevs-projects.vercel.app/api/getPost/${params.id}`);
+  const res = await axios.get(`https://lucy-test.vercel.app/api/getPost/${params.id}`);
   const blog = res.data;
 
 
