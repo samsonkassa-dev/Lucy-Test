@@ -1,0 +1,574 @@
+{
+  "labels": [
+    {
+      "locale": "en-US",
+      "headerTitle": "Code, Create and Connect",
+      "headerSubtitle": "Lucy Coding: online coding learning platform for kids and teens to kick-start their coding journey into the world of programming.",
+      "getStarted": "Get Started",
+      "register": "Register",
+      "enrollNow": "Enroll Now",
+      "help":"Need help?",
+      "click": "Click here",
+      "toregister": "to register for live Q & A",
+      "sectionTwoTitle": "Start your kids’ coding journey with Lucy",
+      "sectionTwoDesc": "Start your kids coding journey with gamified and project based live courses. Don’t worry, we have mentors to guide them throughout the process.",
+      "sectionTwoComponents": {
+        "pl": {
+          "title": "Personalized Learning",
+          "desc": "We provide personalized coding courses that cater to your child's level. We assess their coding skills and create a customized curriculum that allows them to learn and progress at their own pace."
+        },
+        "sc": {
+          "title": "Sense of Community",
+          "desc": "We value parents' role in their child's coding journey. We build a strong community that includes both students and parents. We foster collaboration and empower parents as partners in their child's learning journey."
+        },
+        "cr": {
+          "title": "Cultural Representation",
+          "desc": "Our academy understands the cultural and linguistic nuances of the Ethiopian/African  diaspora community and incorporates them into our teaching methodology."
+        },
+        "lmc": {
+          "title": "Live Sessions",
+          "desc": "all our classes are live, ensuring real-time interaction and engagement for young programers."
+        },
+        "ps": {
+          "title": "Practical Skills",
+          "desc": "Lucy offers a project-based learning approach for all. Meaning your child will apply their skills through real-world projects and coding challenges. This approach helps kids to develop practical skills and provides them with an opportunity to showcase their abilities."
+        },
+        "vclt": {
+          "title": "Variety of Coding Languages and Tools",
+          "desc": "Lucy offers a variety of coding languages and tools, such as Scratch, Python, Website development, and Mobile app development. Your child will have access to a range of technologies and can choose the ones that they are interested in."
+        }
+      },
+      "sectionThreeTitle": "why even teach kids coding?",
+      "sectionThreeComponents": {
+        "ess": {
+          "title": "Enhance kids skill set",
+          "desc": "By building their own personal digital projects, your children will both enhance their skill sets and gain new ones like coding."
+        },
+        "at": {
+          "title": "Analytical thinking",
+          "desc": "Kids can develop critical thinking and problem-solving skills as they maneuver through our courses."
+        },
+        "nco": {
+          "title": "New career options",
+          "desc": "Learning how to code will give your child more options for a career choice. Opportunities they never knew about will show up for them!"
+        }
+      },
+      "sectionFourTitle": "Let your child’s tomorrow start now!",
+      "sectionFourDesc": "Take the first step in shaping their future and secure their spot in our transformative coding courses.",
+      "sectionFiveTitle": "Frequently Asked Questions",
+      "sectionFiveComponents": [
+        {
+          "question": "Who is Lucy Coding for?",
+          "answer": "Lucy coding is targeted at children between the ages of 8-18 that want to kick start their journey to the world of programming and develop and/or enhance skills in coding and AI. The program is great for beginners and advanced students."
+        },
+        {
+          "question": "What is Lucy Coding, and what does it offer?",
+          "answer": "Lucy Coding is an online coding education platform that aims to arm kids and youth with basic coding and 21st century skills mainly for Ethiopian diaspora children. Our mission is to provide the next generation of Ethiopian leaders with the technical skills and knowledge they need to succeed in the digital world. Through our platform, we offer a range of courses tailored to the needs of Ethiopian diaspora children, from beginner to advanced levels. We offer a variety of coding languages and tools, such as Scratch, Python, Website development, and Mobile app development. The program also introduces AI technology to students and guides them through the basics so they have a solid foundation. This ensures that students have access to a range of technologies and can choose the ones that align with their interests and goals."
+        },
+        {
+          "question": "What are the technical requirements for joining Lucy? What will my child need to effectively take part in and complete this program?",
+          "answer": "The course will be taken online via the internet. Your child or children will need a computer or laptop, reliable WIFI or internet connection, and must use a web browser like Google Chrome or Firefox. For video conferencing with instructors, your child will also need a webcam. The platform for our courses will be Google Classroom and students will be able to engage with the mentors throughout their learning experience."
+        },
+        {
+          "question": "I have more than one child, can they all take the course at the same time?",
+          "answer": "Absolutely!  As a matter of fact, we offer a family discount for families with more than one prospective student. When enrolling more than one child you can receive a discount of 5%. You will also receive another 5% discount if you pay upfront for the whole 12 sessions."
+        },
+        {
+          "question": "How long is the training and how much does the course cost?",
+          "answer": "The training consists of 12 sessions, and your child can choose from three options to complete them:",
+          "lists": [
+            "First month: 3 sessions per week",
+            "Month and a half: 2 sessions per week",
+            "Three months: 1 session per week."
+          ],
+          "answer2": "The cost for each set of 4 sessions is $100 USD. Therefore, the total program cost is $300 USD for 12 sessions. With applicable discounts, the cost will be $285 USD. The program includes live mentorship to ensure your child's success."
+        },
+        {
+          "question": "What language will the course be taught in?",
+          "answer": "The course will be taught primarily in English but some of our tutors and mentors also know a variety of other local Ethiopian and African languages."
+        },
+        {
+          "question": "What is the process for registering and enrolling in Lucy?",
+          "answer": "Registration for the Lucy coding will be all done online. You will answer questions online regarding your child that is enrolling and pay a registration fee as well. Once this is complete your child will be ready to start at Lucy coding."
+        },
+        {
+          "question": "Where do I pay the program fee?",
+          "answer": "Once signed up, you will be asked to pay the fee online using your preferred payment method. Once paid your child will be fully registered and ready to start the course."
+        },
+        {
+          "question": "Who are the instructors of Lucy, and what are their qualifications?",
+          "answer": "The program is taught by knowledgeable and trained instructors from Ethiopia. Your child will be mentored through the entire course and will be able to video call, chat, and discuss any issues or content related questions. They will be guided throughout the entire learning experience."
+        },
+        {
+          "question": "What discounts are available for families with multiple children?",
+          "answer": "We offer a family discount for families with more than one prospective student. When enrolling more than one child you can receive a discount of 5 %. You will also receive another 5% discount if you pay upfront for the whole 12 sessions. With the discount applied, the cost of the program will be $285 USD/ 12 sessions."
+        },
+        {
+          "question": "What kind of package do you offer for students who want to enroll in a group?",
+          "answer": "We offer special arrangements and discounts for students interested in group enrollment. Our goal is to provide an accessible and affordable learning experience that emphasizes collaboration. Please reach out to us at contact@lucycoding.com, and we'll gladly assist you in making the necessary arrangements to ensure a successful group enrollment experience."
+        }
+      ],
+      "sectionSix":{
+        "cardOneTitle":"Trainer/Student Ratio",
+        "cardOneDesc":"With a 1:1 or better trainer-to-student ratio, we ensure personalized attention and job opportunities for qualified trainers.",
+        "cardTwoTitle":"Flexible Schedules",
+        "cardTwoDesc":"Our class options come with specified class durations, unaffected by time differences, making learning accessible to all.",
+        "cardThreeTitle":"Global Support",
+        "cardThreeDesc":"Lucy Coding has global representatives ready to assist you. Contact us by email or phone at your convenience, and check our availability for an instant response.",
+        "cardFourDesc":"We are not just a kids coding academy; we're a cause. A portion of our income supports tech-education efforts for underprivileged kids across Ethiopia. Our highly qualified and well-paid instructors make a difference in providing quality education for kids learning to code. With our focus on kids coding, we strive to make a positive impact on the future of young learners, equipping them with essential coding skills."
+      },
+      "testimonials":{
+        "title":"Testimonials",
+        "testimonyOne":"Guta Wolde",
+        "testimony":"Thank you for doing this important program for our community and our children. I believe the community should support this program back to make broadly accessible to all who needs it."
+        
+      },
+      "featuredCourses":{
+        "title":"Featured Courses"
+      },
+      "discount": "Up To 15% Discount",
+      "navbarComponents": {
+        "home": "Home",
+        "register": "Register",
+        "login": "Login",
+        "contactUs": "Contact Us",
+        "aboutUs": "About Us",
+        "courses": "Courses",
+        "blog": "Blog"
+      },
+      "contactUsPage": {
+        "title": "Get in touch",
+        "subtitle": "Our team would like to hear from you",
+        "formComponents": {
+          "name": "First Name",
+          "lastName": "Last Name",
+          "email": "Email",
+          "phone": "Phone Number",
+          "message": "Message",
+          "agree": " I accept the",
+          "terms": "Friendly Privacy Policy",
+          "send": "Send Message"
+        }
+      },
+
+      "registerPage": {
+        "parentComponent": {
+          "title": "Your Details",
+          "name": "First Name",
+          "lastName": "Last Name",
+          "email": "Email",
+          "phone": "Phone Number",
+          "agree": " I accept the",
+          "terms": "Terms of Service",
+          "privacy": "and have read the Privacy Notice"
+        },
+        "studentComponent": {
+          "title": "Student Name And Grade Level",
+          "name": "First Name",
+          "lastName": "Last Name",
+          "grade": "Grade Level",
+          "codingXP": "Coding Experience",
+          "add": "Add another student",
+          "grades": [
+            "Select Grade Level",
+            "Grade 2-4",
+            "Grade 5-8",
+            "Grade 9-12"
+          ],
+          "codingXPs": [
+            "Select a coding experience",
+            "No experience",
+            "Experienced"
+          ]
+        },
+        "PrerequisiteDesc": "Prerequisite",
+        "recommended": {
+          "session": "1hr per session",
+          "sessions": "sessions",
+          "moneyPerSession": "$33 per session",
+          "skillsGained": "Skills Gained",
+          "topicsCovered": "Topics Covered"
+        },
+
+        "interests": [
+          "Interest",
+          " Choose An Interest",
+          "Mobile App Development",
+          "Computer Programming (Python)"
+        ],
+        
+        "frequency": {
+          "title": " Choose the training frequency that suits your child",
+          "session": [
+            {
+              "title": "1 day/week",
+              "Date": "Every Saturday ",
+              "time": "Feb 15 - May 10",
+              "price": "$100"
+            },
+
+            {
+              "title": "2 days/week",
+              "Date": "Every Tue and Thu",
+              "time": "Feb 15 - March 28",
+              "price": "$285"
+            },
+            {
+              "title": "3 days/week",
+              "time": "July 15 - August 10",
+              "price": "$260"
+            }
+          ],
+          "sessionEnroll": [
+            {
+              "title": "1 day/week",
+              "time": "Every Saturday",
+              "price": "$135"
+            },
+
+            {
+              "title": "2 days/week",
+              "time": "Every Tue and Thu",
+              "price": "$360"
+            }
+          ]
+        },
+        "date": {
+          "title": "Select a start date and time"
+        },
+        "explore": "Explore Courses",
+        "exploredCourse":"The below is your picked course",
+        "exploredCoursesSwitch":"እኛ ወደ መረጥንልዎ ኮርስ ለመመለስ ይህን ይጫኑ።",
+        "timezone": "TimeZone",
+        "chooseTime":"Choose the training frequency and time that suits your child",
+        "classFull": "Start When Class is Full",
+        "classNow":"Start Immediately",
+        "next": "Next",
+        "back": "Back",
+        "checkout":"Checkout",
+        "chooseDate":"Choose Date",
+        "below":"The below is your",
+        "exploreC":"explore course.",
+        "click":"explored course. Click here to switch back to your",
+        "rec":"recommended course.",
+        "course": "recommended course."
+      },
+      "aboutPage": {
+        "title": "About Us",
+        "desc": "Lucy Coding is an online platform designed to ignite students' coding learning journey with dynamic and engaging educational experiences, primarily catering to children and youth. We place a special emphasis on serving the African diaspora community.",
+        "contentSubtitleOne":"Our Mission and Approach",
+        "contentParagraphOne":"Our mission is to empower African and Ethiopian youth with essential coding skills, blending their cultural heritage with technology.",
+        "contentSubtitleTwo":"Our Trainers",
+        "contentParagraphTwo":"Our trainers are coding virtuosos with degrees in computer science,software engineering related fields. Their expertise and unwavering passion ensure that our students excel in the digital world",
+        "contentThreeTitle":"Commitment and Affiliations",
+        "contentThreePragraph":"We are unwavering in our commitment to each student's coding journey, providing personalized learning experiences. Lucy Coding is proudly based in Ethiopia and registered in the USA, an initiative of 'iCog Anyone Can Code,' and affiliated with 'iCog Labs,'  a leading software consultancy firm renowned for its work in field of machine learning and Artificial Intelligence (AI), based in Addis Ababa Join us in shaping the future of tech-savvy leaders, where potential knows no bounds."
+      },
+      "banner":{
+        "banner": "Do you have any suggestions? Click Here.",
+        "bannerClose": "Close",
+        "suggestion":"Suggestion Box",
+        "message":"Please provide your suggestion here:",
+        "send":"Send"
+      },
+      "checkoutPage":{
+        "Title":"Checkout",
+        "payOnce": "Pay Once",
+        "payInstallment": "Pay In Installment",
+        "student": "Student",
+        "trainingFrequency":"Training Frequency",
+        "price":"Price",
+        "quantity": "Quantity",
+        "pay":"Pay",
+        "once":"Once a Week",
+        "twice":"Twice a Week",
+        "back":"Back"
+
+      }
+      
+      
+    },
+
+    {
+      "locale": "am-ET",
+      "headerTitle": "ኮድ እናድርግ፣ እንፍጠር እንዲሁም እንገናኝ",
+      "headerSubtitle": "ሉሲ ኮዲንግ ፤ የኮዲንግን ትምህርት ለሕፃናት እና ለታዳጊ ልጆች ታስቦ የተዘጋጀ ሲሆን ልጆች በፕሮግራሚንግ ዓለም ውስጥ የሚያደርጉትን ጉዞ እንዲጀምሩ ያስችላቸዋል።",
+      "getStarted": "ይጀምሩ",
+      "register":"ይመዝገቡ",
+      "enrollNow": "አሁን ይጀምሩ",
+      "help":"እርዳታ ያስፈልገዎታል?",
+      "click": "እዚህ ጋር ይጫኑ",
+      "toregister": "ለቀጥታ ጥያቄ እና መልስ ለመመዝገብ",
+      "sectionTwoTitle": "የልጆቻችሁን የኮዲንግ ጉዞ ከሉሲ ጋር ያስጀምሩዋቸዉ!",
+      "sectionTwoDesc": "ልጆችዎን በፕሮጀክት ላይ የተመሠረቱ እና ጨዋታ አዘል በሆኑ ስልጠናዋቻችን የኮዲንግ ጉዞዋቸውን ያስጀምሩዋቸዉ። እንዳታስቡ! በሁሉም ሂደት ዉስጥ የሚመሩዋቸዉ እና የሚያማክሩዋቸዉ አሠልጣኞች አሉን!",
+      "sectionTwoComponents": {
+        "pl": {
+          "title": "ግላዊ የሆነ የትምህርት አቀራረብ",
+          "desc": "ለልጆዎ በሚመጥን መልኩ የተዘጋጀ ግላዊ የሆነ የኮዲንግ ስልጠና የሚሠጥ ሲሆን የልጆችዎን ክህሎት በመገምገም  በራሳችዉ ፍጥነት እንዲማሩ የተለየ ሥርዓተ ትምህርት ይዘጋጅላቸዋል። "
+        },
+        "sc": {
+          "title": "ማህበረሰባዊ ይዘት",
+          "desc": "ወላጆች በልጆች የኮዲንግ ጉዞ ወሳኝ ሚና እንደሚጫወቱ እንረዳለን ስለዚህም ለተማሪዎቻችን ብቻ ሳይን ለወላጆችም ጠንካራ የሆነ ማህበረሰባዊ ግንኙነት በመገንባት  ወላጆች የሚገናኙበት ፣ ተሞክሮ የሚያካፍሉበት እና እርስ በርስ የሚደጋገፉበት ማህበረሰብ መፍጠር አስፈላጊ እንደሆነ እናምናለን።  በአንድነትም ይሄንን የምንደጋገፍበትን ማህበረሰብ በመፍጠር ወላጆች በልጆቻቸው የትምህርት ጉዞ ተባባሪ እና ቀኝ እጅ እንዲሆኑ እናደርጋለን። "
+        },
+        "cr": {
+          "title": "ባህልን መወከል",
+          "desc": "አካዳሚያችን በኢትዮጵያ ዳያስፖራዎች ማህበረሰብ ዉስጥ ያለዉን የቁዋንቁዋ እና ባህል ልዩነት በመረዳት በመስተማሪያ ዘዴዎቻችን ዉስጥ ያካትታል።"
+        },
+        "lmc": {
+          "title": "የቀጥታ ሥልጠና",
+          "desc": "የቀጥታ ትምህርት ሁሉም የትምህርት ክፍሎቻችን በእኢንተርኔት በቀጥታ የሚሰጡ እነ የተማሪዋችን ተሳትፎ የሚያረግጡ ናቸዉ።"
+        },
+        "ps": {
+          "title": "የተግባር ክህሎቶች",
+          "desc": "ሉሲ ለሁሉም ተግባር ተኮር የሆነ የትምህርት ሂደት ያቀርባል። ይህም ማለት ልጆችዎን ወደ ትክክለኛዉ ዓለም ላይ ወዳሉ ፕሮጀክቶች በማምጣት እና የኮዲንግ ውድድሮችን በማሳተፍ የተማሩትን ክህሎት እንዲተገብሩ ያደርጋል። ይህ አቀራረብ ተግባራዊ ክህሎታቸዉን እዲያዳብሩ እና እንዲያሳዩ ይረዳቸዋል። "
+        },
+        "vclt": {
+          "title": "የተለያዩ የኮዲንግ ቁዋንቁዋዎች እና መሣሪያዎች",
+          "desc": "ሉሲ እንደ ስክራች፣ ፓይተን፣ የድህረ ገጽ እና የሞባይል መተግበሪያ ግንባታን የያዙ የተለያዩ የኮዲን ቁዋንቁዋዎችን እና መሣሪያዊችን ያቀርባል። ልጆችዎም የተለያዩ ቲክኖሎጂዋችን በማየት ፍላጎት ያሳደረባቸዉን መምረጥ ይችላሉ። "
+        }
+      },
+      "sectionThreeTitle": "ለምን ልጆች ኮዲንግ ይማራሉ?",
+      "sectionThreeComponents": {
+        "ess": {
+          "title": "ክህሎታቸዉን ያዳብራሉ",
+          "desc": "የየራሳቸዉን ዲጂታል ፕሮጀክቶች በመገንባት ልጆች ያላቸዉን ክህሎት ያዳብራሉ ወይንም እንደ ኮዲንግ አይነት አዳዲስ ክህሎቶችን ይማራሉ።"
+        },
+        "at": {
+          "title": "ምክንያታዊ አስተሳሰብ",
+          "desc": "ልጆች ሥልጠናዎቻችንን ሲወስዱ ምክንያታዊ እና ችግር ፈቺ አስተሳሰቦቻቸዉን ያዳብራሉ።"
+        },
+        "nco": {
+          "title": "አዳዲስ የሥራ አማራጮች",
+          "desc": "ኮድ ማድረግ መማር ልጆችዎ ብዙ የሥራ አማራጮች እንዲኖራቸዉ ያደርጋል። የተለያዩ እድሎችም ይከፈቱላቸዋል! "
+        }
+      },
+      "sectionFourTitle": "የልጆችዎን ነገ ዛሬ ያስጀምሩ!",
+      "sectionFourDesc": "የወደፊት ሕይወታቸውን ለመቅረጽ የመጀመሪያውን እርምጃ በመዉሰድ የኮዲንግ ስልጠናዎቻችንን እንዲወስዱ ዛሬዉኑ ቦታ ይያዙላቸዉ!",
+      "sectionFiveTitle": "ተደጋግሞ የሚነሱ ጥያቄዎች",
+      "sectionFiveComponents": [
+        {
+          "question": "ሉሲ ኮዲንግ ለማን ነው?",
+          "answer": "ሉሲ ኮዲንግ ዓላማ ያደረገዉ ከ8 እስከ 18 እደሜ ክልል ዉስጥ ያሉ እና የፕሮግራሚንግን ዓለምን በመቀላቀል የኮዲንግ እና የአርቴፊሻል ኢንተለጀንስ ክህሎታቸዉን ማዳበር ለሚፈልጉ ታዳጊ ወጣቶች ነዉ። ፕሮግራሙ ለጀማሪዎችም ሆነ ልምድ ላላቸዉ ተማሪዎች ይሆናል።"
+        },
+        {
+          "question": "ሉሲ ኮዲንግ ምንድን ነዉ? ምንስ ያቀርባል? ",
+          "answer": "ሉሲ ኮዲን ልጆችዎ ከመደበኛ የኮዲንግ ስልጠና ጀምሮ ከ21ኛዉ ክፍለዘመን የቴክኖሎጂ ክህሎቶች ጋር እንዲተዋወቁ ለማድረግ   ለኢትዮጵያ ዲያስፖራ ታዳጊ ወጣቶች ታስቦ የተዘጋጀ የትምህርት መድረክ ነዉ።ዓላማችንም ኢትዮጵያን  ለሚረከበዉ ቀጣዩ ትዉልድ  በዚህ የዲጂታል ዓለም ዉስጥ የተሳካላቸዉ እንዲሆኑ ተጨባጭ ክህሎት እና እዉቀት እንዲኖራቸዉ ማድረግ ነዉ። በዚህ የትምህርት መድረክም ለጀማሪም ሆነ ልምድ ላላቸዉ ተማሪዎች እንደየሚያስፈልጋቸዉ በብዙ አማራጮች ታስቦ የተዘጋጀ ነዉ በተጨማሪም እንደ ስክራች፣ ፓይተን፣ የድህረ ገጽ እና የሞባይል መተግበሪያ ግንባታን የያዙ የተለያዩ የኮዲን ቁዋንቁዋዎችን እና መሣሪያዊችን ያቀርባል። ከሁሉም በላይ ደግሞ ልጆችዎ ከአርቴፊሻል ኢንተለጀንስ ቴክኖሎጂ ተዋዉቀዉ ጥሩ መሠረት እንዲኖራቸው እና ልጆችዎም የተለያዩ ቲክኖሎጂዋችን በማየት ፍላጎት ያሳደረባቸዉን መምረጥ እንዲችሉ ያደርጋል። "
+        },
+        {
+          "question": "ልጆቼ ሉሲን ለመቀላቀል ማሙዋላት ያለባቸዉ ነገሮች ምንድናቸው? መስፈርቱስ ምንድን ነዉ? ",
+          "answer": " ስልጠናዉ የሚሰጠው በኢንተርኔት የቀጥታ ትምህርት (ኦንላይን) እንደመሆኑ መጠን ልጆዎች ኮምፒዉተር ወይም ላፕቶፕ፣ ጥሩ የሚሠራ ገመድ አልባ ኢንተርኔት ወይንም ኢንተርኔት ሊኖራቸዉ ሲገባ  እንደ ጉግል ክሮም ወይንም ፋየር ፎክስ የድር አሳሾችን መጠቀም ይኖርባቸዋል። በቪዲዮ ከመህራን ጋር ለሚደረጉ ግንኙነቶችም ልጆችዎ ዌብ ካም ያስፈልጋቸዋል በተጨማሪም የመማር ማስተማር ሂደቱ በ ጉግል ክላስ ሩም የሚካሄድ ይሆናል። "
+        },
+        {
+          "question": "ከአንድ በላይ ልጅ ነዉ ያለኝ፤ ሁሉም ልጆቼ በእኩል ሠዓት መማር ይችላሉ? ",
+          "answer": "በሚገባ! እንደዉም ከአንድ በላይ ልጅ ለሚያስተምሩ ቤተሰቦች የቤተሰብ ቅናሽ አለን! ከአንድ ልጅ በላይ ሲያስመዘግቡ የ5% ቅናሽ ያገኛሉ እንዲሁም ለ12ቱ ክፍለጊዜዎች ቀድመዉ ከከፈሉ አሁንም ተጨማሪ የ5% ቅናሽ ያገኛሉ።"
+        },
+        {
+          "question": "ስልጠናው ለምን ያህል ጊዜ ነው እና የኮርሱስ ዋጋ ምን ያህል ነው?",
+          "answer": "ስልጠናው 12 ክፍለ ጊዜዎችን ያቀፈ ሲሆን ልጅዎ ለማጠናቀቅ ከሶስት አማራጮች መምረጥ ይችላል፡-",
+          "lists": [
+            "በአንድ  ወር: በሳምንት 3 ክፍለ ጊዜዎች",
+            "በአንድ ወር ተኩል: በሳምንት 2 ክፍለ ጊዜዎች",
+            "በሶስት ወር: 1 ክፍለ ጊዜ በሳምንት"
+          ],
+          "answer2": "ለእያንዳንዱ የ4 ክፍለ ጊዜዎች ዋጋው 100 ዶላር ነው። ስለዚህ አጠቃላይ የፕሮግራሙ ዋጋ ለ12 ክፍለ ጊዜዎች 300 ዶላር ነው። በሚመለከታቸው ቅናሾች፣ ዋጋው 285 ዶላር ይሆናል። ፕሮግራሙ የልጅዎን ስኬት ለማረጋገጥ የቀጥታ ትምህርት ያካትታል።"
+        },
+        {
+          "question": "ሥልጠናዉ በምን ቋንቋ ነዉ የሚሠጠዉ? ",
+          "answer": "ሥልጠናው በዋነኝነት በኢንግሊዘኛ  ቋንቋ  የሚሠጥ ሲሆን የተለያዩ የሃገር ዉስጥ  ቋንቋ እና የአፍሪካ  ቋንቋ  የሚናገሩ አሠልጣኞች አሉን። "
+        },
+        {
+          "question": "ሉሲ ላይ ለመመዝገብ እና ለመጀመር ያለዉ ሂደት ምንድን ነዉ? ",
+          "answer": "ሉሲ ኮዲንግ ምዝገባ በኦንላይን ሲሆን ልጆችዎን በተመለከተ ያሉትን ጥያቄዋች በኦንላይን በመመለስ ክፍያዉንም በዛዉ ይፈፅማሉ። ይህንን ሲጨርሱም ልጆችዎ ሉሲ ኮዲንግን ለመጀመር ዝግጁ ሆኑ ማለት ነዉ። "
+        },
+        {
+          "question": "የሥልጠናዉን ክፍያ የት እንከፍላለን? ",
+          "answer": "ልጆችዎ ከተመዘገቡ በኁዋላ በሚመርጡት የክፍያ አማራጭ ኦንላይን እንዲከፍሉ ይጠየቃሉ እንደከፈሉም ልጆችዎ ምዝገባዉን ሙሉ ለሙሉ አጠናቀው ሥልጠናዉን ለመዉሰድ ዝግጁ ይሆናሉ። "
+        },
+        {
+          "question": "የሉሲ መምህራን እነ ማን ናቸዉ? ብቃቶቻቸውስ ምንድን ናቸዉ?",
+          "answer": "ፕሮግራሙ በተማሩ እና በሠለጠኑ የኢትዮጵያ መምህራን ይሠጣል። መምህራኖቹም ልጆችዎ ሥልጠናዉን እስከሚጨርሱ በቪዲዮ እና በጽሁፍ መልክቶች ማንኛዉንም ጥያቄዋቻቸውን በመመለስ  እና  በመወያየት እና ይሚያስፈልጋቸዉን ሁሉ ያቀርባሉ።"
+        },
+        {
+          "question": "ብዙ ልጆች ላሉዋቸው ቤተሰቦች ቅናሽ አለ? ",
+          "answer": " ከእንድ በላይ ልጅ ለሚያስተምሩ ቤተሰቦች የቤተሰብ ቅናሽ አለን! ከእንድ ልጅ በላይ ሲያስመዘግቡ የ5% ቅናሽ ያገኛሉ እንዲሁም ለ12ቱ ክፍለጊዜዎች ቀድመዉ ከከፈሉ አሁንም ተጨማሪ የ5% ቅናሽ ያገኛሉ።  ይህም ማለት የፕሮግራሙ ክፍያ  $285 ብቻ ለ12 ክፍለ ጊዜ ይሆናል።"
+        },
+        {
+          "question": "በቡድን መመዝገብ ለሚፈልጉ ተማሪዎች ምን አይነት ጥቅል ነው የሚያቀርቡት?",
+          "answer": "በቡድን መመዝገብ ለሚፈልጉ ተማሪዎች ልዩ ዝግጅቶችን እና ቅናሾችን እናቀርባለን። ግባችን በትብብር ላይ የሚያተኩር ተደራሽ እና ተመጣጣኝ የትምህርት ተሞክሮ ማቅረብ ነው። እባክዎን በ contact@lucycoding.com ያግኙን እና የተሳካ የቡድን ምዝገባ ልምድ ለማረጋገጥ አስፈላጊውን ዝግጅት ለማድረግ በደስታ እንረዳዎታለን።"
+        }
+      ],
+      "sectionSix":{
+        "cardOneTitle":"የአስተማሪ እና ተማሪ ንፅፅር",
+        "cardOneDesc":"1 ብቁ ለ 1 ተማሪዋ የሚመደብ ሲሆን ለመርሐግብሮች የተዘጋጁ ሲሆኑ፣ በጊዜ ልዩነት ያልተነካ፣ መማርን ለሁሉም ተደራሽ ያደርገዋል።",
+        "cardTwoTitle":"ተለዋዋጭ ክፍለ ጊዜዎች",
+        "cardTwoDesc":"የትምህርት ክፍለጊዜዋቻችን በተመረጡ ሰዓታት የሚሰጡ እና በሰዓት ልዩነት የማይበገሩ በመሆናቸዉ ትምህርቱ ለሁም የሚዳረስ ይሆናል።",
+        "cardThreeTitle":"አለም አቀፍ ድጋፍ",
+        "cardThreeDesc":"ሉሲ ኮዲንግ በመለዉ አለም ተማሪዋች እና ወላጆችን የሚያግዙ ተወካዮችን አሰናድቱዋል። በኢሜል ወይንም በስልክ አገልግሎት በመጠቀም እርሶን ለማገዝ ያለንን ዝግጁነት ያረጋግጡ።",
+        "cardFourDesc":"እኛ ለልጆችን የኮዲንግ ስልጠና የምንሠጥ አካዳሚ ብቻ ሳንሆን ምክንያትም ነን! የምናገኘው ገቢ በከፊል በኢትዮጵያ ለሚገኙ እና የቴክኖሎጂ ትምህርትን ማግኘት ላልቻሉ አቅም የሌላቸዉ ልጆች ይዉላል። ብቁ የሆኑት መምህራኖቻችን ጥራት ያለዉ ትምህርት በመስጠት ልዩነትን ይፈጥራሉ። በልጆች ኮዲንግ ትምህርት ላይ ባደረግነው ትኩረት፣ በወጣት ተማሪዎች የወደፊት ሕይወት ላይ አወንታዊ ተፅእኖ ለመፍጠር፣ አስፈላጊ የኮድ ችሎታዎችን ለማስታጠቅ እንጥራለን።"
+      },
+      "testimonials":{
+        "title":"ምስክሮች",
+        "testimonyOne":"ጉታ ወልዴ",
+        "testimony":"ይህን አስፈላጊ ፕሮግራም ለማህበረሰባችን እና ለልጆቻችን ስላዘጋጃቹ እናመሰግናለን። ይህ ፕሮግራም ለሁሉም ተደራሽ እንዲሆን ማህበረሰቡ መደገፍ አለበት ብዬ አምናለው።"
+        
+      },
+      "featuredCourses":{
+        "title":"የተመረጡ ኮርሶች"
+      },
+      "discount": "እስከ 15% ቅናሽ",
+      "navbarComponents": {
+        "home": "ዋና ገጽ",
+        "register": "ምዝገባ",
+        "login": "ግባ",
+        "contactUs": "አግኙን",
+        "aboutUs": "ስለ እኛ",
+        "courses": "ትምህርቶች",
+        "blog":"ብሎግ"
+      },
+      "contactUsPage": {
+        "title": "ያግኙን",
+        "subtitle": "ቡድናችን ከእርስዎ መስማት ይፈልጋል",
+        "formComponents": {
+          "name": "ስም",
+          "lastName": "የአባት ስም",
+          "email": "ኢሜይል አድራሻ",
+          "phone": "ስልክ ቁጥር",
+          "message": "መልእክት",
+          "agree": "ለመተዳደር ይስማማልሉ ",
+          "terms": "በሕግ እና ደምቦቻችን",
+          "send": "መልእክትዎን ይላኩ"
+        }
+      },
+      "registerPage": {
+        "parentComponent": {
+          "title": "የእርስዎ መረጃ",
+          "name": "ስም",
+          "lastName": "የአባት ስም",
+          "email": "ኢሜይል አድራሻ",
+          "phone": "ስልክ ቁጥር",
+          "agree": "ለመተዳደር ይስማማልሉ ",
+          "terms": "በሕግ እና ደምቦቻችን"
+        },
+
+        "studentComponent": {
+          "title": "የተማሪዉ ስም እና የትምህርት ደረጃ",
+          "name": "ስም",
+          "lastName": "የአባት ስም",
+          "grade": "የትምህርት ደረጃ",
+          "codingXP": "የኮዲንግ ልምድ",
+          "add": "ሌላ ተማሪ ጨምር",
+          "grades": [
+            "የክፍል ደረጃ ይምረጡ",
+            "2-4 ክፍል",
+            "5-8 ክፍል",
+            "9-12 ክፍል"
+          ],
+          "codingXPs": ["ኮድ የማድረግ ልምድ ይምረጡ", "ልምድ የሌለው", "ልምድ ያለው"]
+        },
+        "PrerequisiteDesc": "ቅድመ ሁኔታ ",
+        "recommended": {
+          "session": "1ሰአት በ ክፍለ ጊዜ",
+          "sessions": " ክፍለ ጊዜዎች",
+          "moneyPerSession": "$33 በ ክፍለ ጊዜ",
+          "skillsGained": "የሚገኙ ክህሎቶች",
+          "topicsCovered": "የሚሸፈኑ ርዕሶች"
+        },
+        "interests": [
+          "ፍላጎት",
+          "ፍላጎትዎን ይምረጡ",
+          "Mobile App Development",
+          "Computer Programming (Python)"
+        ],
+        "frequency": {
+          "title": "ለልጅዎ ተስማሚ የስልጠና መርሀግብር ይምረጡ",
+          "session": [
+            {
+              "title": "1  ክፍለ ጊዜ / ሳምንት",
+              "time": "የካቲት 7 - ግንቦት 2",
+              "Date": "ሁሌ ቅዳሜ",
+              "price": "$100",
+              "metaData": "- 5% ቅድመ ክፍያ ቅናሽ"
+            },
+
+            {
+              "title": "2  ክፍለ ጊዜ / ሳምንት  ",
+              "time": "የካቲት 7 - መጋቢት 19",
+              "Date": "ሁሌ ማክሰኞ እና ሀሙስ",
+              "price": "$285",
+              "metaData": "- 5% ቅድመ ክፍያ ቅናሽ"
+            },
+            {
+              "title": "3  ክፍለ ጊዜ / ሳምንት  ",
+              "time": "1 ወር",
+              "price": "285 ዶላር",
+              "metaData": "- 5% ቅድመ ክፍያ ቅናሽ"
+            }
+          ],
+          "sessionEnroll": [
+            {
+              "title": "1 ቀን/በሳምንት",
+              "time": "ሁሌ ቅዳሜ",
+              "price": "$135"
+            },
+
+            {
+              "title": "2 ቀን/በሳምንት",
+              "time": "ሁሌ ማክሰኞ እና ሀሙስ",
+              "price": "$360"
+            }
+          ]
+        },
+        "date": {
+          "title": "መጀመር የሚፈልጉበትን ቀን እና ሰዓት ይምረጡ"
+        },
+        "explore": "ኮርሶቻችን",
+        "explorerdCourse":"ከታች ምታዩት የመረጡት ኮርስ ነው",
+        "exploredCoursesSwitch":"እኛ ወደ መረጥንልዎ ኮርስ ለመመለስ ይህን ይጫኑ።",
+        "timezone": "የጊዜ ክልል",
+        "chooseTime":"ለልጃችሁ የሚስማማውን የሥልጠና ድግግሞሽ ና ጊዜ ምረጡ",
+        "classFull": "ክፍሉ ሲሞላ ይጀምሩ",
+        "classNow":"ወዲያውኑ ይጀምሩ",
+        "next": "ቀጥል",
+        "back": "ተመለስ",
+        "checkout":"ወደ ክፍያ",
+        "chooseDate":"ሚጀምሩበትን ቀን ይምረጡ",
+        "below":"ከታች ምታዩት ",
+        "exploreC":"የመረጡት ኮርስ ነው",
+        "click":"የመረጡት ኮርስ ነው። እኛ ወደ መረጥንልዎ ኮርስ ለመመለስ",
+        "rec":"ይህን ይጫኑ",
+        "course": "እኛ የመረጥንልዎ ኮርስ ነው"
+      },
+      "aboutPage": {
+        "title": "ሉሲ ኮዲንግ ምንድነው?",
+        "desc": "ሉሲ ኮዲንግ ታዳጊዎች እና ታዳጊ ወጣቶች ኮዲንግ በመማር ጉዙዋቸዉ ላይ አሻራ ለማሳረፍ አሳታፊ እና አስተማሪ በሆነ መንገድ የሚሰጥ የኦንላይን ትምህርት መድረክ ነዉ። ሉሲ ኮንግድ በአፍሪካዊያን እና በዲያስፖራ ማህበረሰብ ላይ ትኩረትም ያደረገ ነዉ።",
+        "contentSubtitleOne":"ተልዕኮ እና አቀራረብ",
+        "contentParagraphOne":"የሉሲ ኮዲንግ ተልዕኮ አፍሪካዊ እና ኢትዮጵያዊ የሆኑ ታዳጊ ወጣቶችን ባህላዊ እሴቶቻቸዉን ከቴክኖሎጂ ጋር በማዋሃድ እና ኮዲንግ ክህሎታቸውን በማዳበር ብቁ ማድረግ ነዉ።",
+        "contentSubtitleTwo":"መምህሮቻችን/አሰልጣኞቻችን ",
+        "contentParagraphTwo":"መምህሮቻችን በኮምፒውተር ሳይንስ እና በሶፍትዌር ኢንጅነሪንግ ዲግሪ ያላቸዉ ሲሆኑ ተማሪዎቻችን በዚህ የዲጂታል ዓለም ቀዳሚ እንዲሆኑ ለማድረግ ልምዳቸዉን እና ልባዊ ፍላጎታቸዉን  ሳይቆጥቡ የሚያስተምሩ ናቸው።",
+        "contentThreeTitle":"ቁርጠኝነት እና ትስስር",
+        "contentThreePragraph":"ተማሪዎቻችንን ግላዊ በሆነ መንገድ ኮዲንግ ለማስተማር በቁርጠኝነት እንሰራለን። ሉሲ ኮዲንግ መሠረቱን ኢትዮጵያ ያደረገ እና በአሜሪካ የተመዘገበ ሲሆን በአይኮግ ኤኒ ዋን ካን ኮድ ተነሳሽነት እና የሶፍትዌር ኮንሰልታንሲ እና በማሽን መማሪያ  አርቲፊሻል ኢንተለጀንስ ታዋቂ ከሆነዉ አይ ኮግ ላብስ ጋር በመተባበር የታዳጊ ወጣቶችን ነገ ለመገንባት ይተጋል። "
+      },
+      "banner":{
+        "banner": "አስተያየት ለመስጠት ይሄንን ይጫኑ",
+        "bannerClose": "ዝጋ",
+        "suggestion":"አስተያየት መስጫ",
+        "message":"አስተያየትዎን እዚህ ጋር ያስቀምጡ",
+        "send":"ላክ"
+      },
+      "checkoutPage":{
+        "Title":"ወደ ክፍያ",
+        "payOnce": "አንዴ ይክፈሉ",
+        "payInstallment": "በወር ይክፈሉ",
+        "student": "የተማሪ ስም",
+        "trainingFrequency":"የስልጠና ጊዜ",
+        "price":"ዋጋ",
+        "quantity": "ብዛት",
+        "pay":"ክፈል",
+        "once":"በሳምንት አንድ ጊዜ",
+        "twice":"በሳምንት ሁለት ጊዜ",
+        "back":"ተመለሰ"
+
+      }
+      
+    }
+  ]
+}
