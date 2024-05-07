@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 
 
 export async function getStaticProps() {
-  const res = await axios.get('http://localhost:3000/api/getPost');
+  const res = await axios.get('https://lucy-test-rcm8s1oik-samsonkassadevs-projects.vercel.app/api/getPost');
   const blogs = res.data;
 
   return {
