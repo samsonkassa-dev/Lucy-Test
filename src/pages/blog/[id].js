@@ -2,31 +2,36 @@ import { useState, useEffect } from 'react';
 
 import axios from 'axios';
 import Image from 'next/image';
-import parse, { domToReact } from 'html-react-parser';
+import parse, { domToReact } from "html-react-parser";
 
+const dev = process.env.NODE_ENV !== "production";
+const server = dev ? "http://localhost:3000" : "https://lucy-test.vercel.app";
 
 export async function getStaticPaths() {
-  const res = await axios.get('https://lucy-test.vercel.app/api/getPost');
-  const blogs = res.data;
-
+  let blogs = [];
+  if (dev) {
+    const res = await axios.get(`${server}/api/getPost`);
+    blogs = res.data;
+  }
 
   const paths = blogs.map((blog) => ({
     params: { id: blog.id },
-  }))
+  }));
 
-
-  return { paths, fallback: false }
+  return { paths, fallback: true };
 }
-
 
 export async function getStaticProps({ params }) {
-  const res = await axios.get(`https://lucy-test.vercel.app/api/getPost/${params.id}`);
-  const blog = res.data;
+  let blog = {};
+  if (dev) {
+    const res = await axios.get(`${server}/api/getPost/${params.id}`);
+    blog = res.data;
+  }
 
-
-
-  return { props: { blog } }
+  return { props: { blog } };
 }
+
+
 
 const FullPage = ({ blog }) => {
   const [parsedContent, setParsedContent] = useState("");

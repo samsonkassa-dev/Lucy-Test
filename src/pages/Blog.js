@@ -5,9 +5,15 @@ import parse, { domToReact } from 'html-react-parser';
 import { useState, useEffect } from "react";
 
 
+const dev = process.env.NODE_ENV !== "production";
+const server = dev ? "http://localhost:3000" : "https://lucy-test.vercel.app";
+
 export async function getStaticProps() {
-  const res = await axios.get('https://lucy-test.vercel.app/api/getPost');
-  const blogs = res.data;
+  let blogs = [];
+  if (dev) {
+    const res = await axios.get(`${server}/api/getPost`);
+    blogs = res.data;
+  }
 
   return {
     props: {
