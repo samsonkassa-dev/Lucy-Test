@@ -201,33 +201,33 @@
           "title": " Choose the training frequency that suits your child",
           "session": [
             {
-              "title": "1 day/week",
+              "title": "3 days/week",
               "Date": "Every Saturday ",
               "time": "Feb 15 - May 10",
               "price": "$100"
             },
 
             {
-              "title": "2 days/week",
+              "title": "4 days/week",
               "Date": "Every Tue and Thu",
               "time": "Feb 15 - March 28",
               "price": "$285"
             },
             {
-              "title": "3 days/week",
+              "title": "6 days/week",
               "time": "July 15 - August 10",
               "price": "$260"
             }
           ],
           "sessionEnroll": [
             {
-              "title": "1 day/week",
+              "title": "3 days/week",
               "time": "Every Saturday",
               "price": "$135"
             },
 
             {
-              "title": "2 days/week",
+              "title": "4 days/week",
               "time": "Every Tue and Thu",
               "price": "$360"
             }
@@ -482,7 +482,7 @@
           "title": "ለልጅዎ ተስማሚ የስልጠና መርሀግብር ይምረጡ",
           "session": [
             {
-              "title": "1  ክፍለ ጊዜ / ሳምንት",
+              "title": "3  ክፍለ ጊዜ / ሳምንት",
               "time": "የካቲት 7 - ግንቦት 2",
               "Date": "ሁሌ ቅዳሜ",
               "price": "$100",
@@ -490,7 +490,7 @@
             },
 
             {
-              "title": "2  ክፍለ ጊዜ / ሳምንት  ",
+              "title": "4  ክፍለ ጊዜ / ሳምንት  ",
               "time": "የካቲት 7 - መጋቢት 19",
               "Date": "ሁሌ ማክሰኞ እና ሀሙስ",
               "price": "$285",
@@ -505,13 +505,13 @@
           ],
           "sessionEnroll": [
             {
-              "title": "1 ቀን/በሳምንት",
+              "title": "3 ቀን/በሳምንት",
               "time": "ሁሌ ቅዳሜ",
               "price": "$135"
             },
 
             {
-              "title": "2 ቀን/በሳምንት",
+              "title": "4 ቀን/በሳምንት",
               "time": "ሁሌ ማክሰኞ እና ሀሙስ",
               "price": "$360"
             }

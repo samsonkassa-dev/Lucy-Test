@@ -10,16 +10,15 @@ const server = dev ? "http://localhost:3000" : "https://lucy-test.vercel.app";
 
 export async function getStaticProps() {
   let blogs = [];
-  if (dev) {
-    const res = await axios.get(`${server}/api/getPost`);
-    blogs = res.data;
-  }
+
+  const res = await axios.get(`${server}/api/getPost`);
+  blogs = res.data;
 
   return {
     props: {
       blogs,
     },
-    revalidate: 60, 
+    revalidate: 60,
   };
 }
 

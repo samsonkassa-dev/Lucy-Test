@@ -93,8 +93,6 @@ export default function DatePickerPage(props) {
     setUserDefaultTimezone("AddisAbaba/Ethiopia");
   }, [selectedSession]);
 
-  // re-run this effect when `selectedSession` changes
-  // re-run this effect when `isInputClicked` changes
 
   const recommendationArray = state.getState().studentRecommendation;
   const userId =
@@ -103,8 +101,6 @@ export default function DatePickerPage(props) {
 
   const [selectedCourseIndex, setSelectedCourseIndex] = useState(0);
   const [selectedValues, setSelectedValues] = useState([]);
-
-  const [showFrequency, setShowFrequency] = useState(false);
 
   const setSelectedTap = state.getState().actions.setSelectedTap;
   const selectedTap = state.getState().selectedTap;
@@ -312,7 +308,7 @@ export default function DatePickerPage(props) {
 
     // Update the state
     setSelectedTime(newValues);
-    console.log(newValues);
+    // console.log(newValues);
 
     // Update the students state
     setStudents((prevStudents) => {

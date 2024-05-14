@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-import axios from 'axios';
-import Image from 'next/image';
+import axios from "axios";
 import parse, { domToReact } from "html-react-parser";
 
 const dev = process.env.NODE_ENV !== "production";
@@ -9,10 +8,10 @@ const server = dev ? "http://localhost:3000" : "https://lucy-test.vercel.app";
 
 export async function getStaticPaths() {
   let blogs = [];
-  if (dev) {
+
     const res = await axios.get(`${server}/api/getPost`);
     blogs = res.data;
-  }
+  
 
   const paths = blogs.map((blog) => ({
     params: { id: blog.id },
@@ -23,25 +22,21 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   let blog = {};
-  if (dev) {
-    const res = await axios.get(`${server}/api/getPost/${params.id}`);
-    blog = res.data;
-  }
 
-  return { props: { blog } };
+  const res = await axios.get(`${server}/api/getPost/${params.id}`);
+  blog = res.data;
+
+  return { props: { blog }, revalidate: 60 };
 }
-
-
 
 const FullPage = ({ blog }) => {
   const [parsedContent, setParsedContent] = useState("");
-
 
   useEffect(() => {
     if (blog) {
       const options = {
         replace: ({ name, attribs, children }) => {
-          if (name === 'a') {
+          if (name === "a") {
             return (
               <a href={attribs.href} className="text-blue-500 underline">
                 {domToReact(children, options)}
@@ -50,17 +45,14 @@ const FullPage = ({ blog }) => {
           }
         },
       };
-    
+
       setParsedContent(parse(blog.content, options));
     }
   }, [blog]);
 
-
   if (!blog) {
     return <div>Loading...</div>;
   }
-  
-
 
   return (
     <>
@@ -82,7 +74,7 @@ const FullPage = ({ blog }) => {
         <div className="text-[18px] inline font-normal text-[#1E1E1E] opacity-90">
           {Array.isArray(parsedContent)
             ? parsedContent.map((element, index) => (
-                <div key={index} className='mb-5'>
+                <div key={index} className="mb-5">
                   {element}
                 </div>
               ))
