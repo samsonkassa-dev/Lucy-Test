@@ -3,28 +3,35 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import parse, { domToReact } from "html-react-parser";
 
+const dev = process.env.NODE_ENV !== "production";
+const server = dev ? "http://localhost:3000" : "https://lucycoding.com";
 
 export async function getStaticPaths() {
-  let blogs = [];
+  try {
+    const res = await axios.get(`${server}/api/getPost`);
+    const blogs = res.data;
 
-    const res = await axios.get(`/api/getPost`);
-    blogs = res.data;
-  
+    const paths = blogs.map((blog) => ({
+      params: { id: blog.id.toString() }, // Ensure `id` is a string
+    }));
 
-  const paths = blogs.map((blog) => ({
-    params: { id: blog.id },
-  }));
-
-  return { paths, fallback: true };
+    return { paths, fallback: true };
+  } catch (error) {
+    console.error("Error fetching blog data:", error.message);
+    return { paths: [], fallback: true }; // Fallback to empty paths
+  }
 }
 
 export async function getStaticProps({ params }) {
-  let blog = {};
+  try {
+    const res = await axios.get(`${server}/api/getPost/${params.id}`);
+    const blog = res.data;
 
-  const res = await axios.get(`/api/getPost/${params.id}`);
-  blog = res.data;
-
-  return { props: { blog }, revalidate: 60 };
+    return { props: { blog }, revalidate: 60 };
+  } catch (error) {
+    console.error("Error fetching blog post:", error.message);
+    return { notFound: true }; // Return a 404 page
+  }
 }
 
 const FullPage = ({ blog }) => {
