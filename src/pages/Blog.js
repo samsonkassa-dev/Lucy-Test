@@ -9,44 +9,57 @@ import { useState, useEffect } from "react";
 // const dev = process.env.NODE_ENV !== "production";
 // const server = dev ? "http://localhost:3000" : "https://lucycoding.com";
 
-// export async function getStaticProps() {
-//   try {
-//     const res = await axios.get(`${server}/api/getPost`); // Replace with your actual API endpoint
-//     const blogs = res.data;
 
-//     return {
-//       props: { blogs },
-//       revalidate: 60, // Set your desired revalidation interval
-//     };
-//   } catch (error) {
-//     console.error('Error fetching data:', error);
-//     return {
-//       props: { blogs: [] }, // Return an empty array or handle the error as needed
-//       revalidate: 60,
-//     };
-//   }
-// }
 
-const BlogPage = () => {
+
+
+export async function getStaticProps() {
+  try {
+    const server = process.env.NODE_ENV === "production"
+      ? "https://lucycoding.com"
+      : "http://localhost:3000";
+
+    const response = await fetch(`${server}/api/getPost`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch data (status ${response.status})`);
+    }
+
+    const blogs = await response.json();
+
+    return {
+      props: { blogs },
+      revalidate: 60, // Set your desired revalidation interval
+    };
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return {
+      props: { blogs: [] }, // Return an empty array or handle the error as needed
+      revalidate: 60,
+    };
+  }
+}
+
+
+const BlogPage = ({blogs}) => {
   const [blogOverviews, setBlogOverviews] = useState([]);
-  const [blogs, setBlogs] = useState([]);
+  // const [blogs, setBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get('/api/getPost'); // Replace with your actual API endpoint
-        setBlogs(res.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await axios.get('api/getPost'); // Replace with your actual API endpoint
+  //       setBlogs(res.data);
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   useEffect(() => {
     if (blogs) {
@@ -88,16 +101,10 @@ const BlogPage = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      {isLoading ? (
-        <div className="animate-spin rounded-full border-t-4 border-yellow border-opacity-25 h-12 w-12"></div>
-      ) : (
-        <div>
-          {/* Wrap the Blog component in a neutral container */}
+
           <Blog blogs={blogOverviews} />
-        </div>
-      )}
-    </div>
+     
+   
   );
 };
 

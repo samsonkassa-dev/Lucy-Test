@@ -3,13 +3,11 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import parse, { domToReact } from "html-react-parser";
 
-const dev = process.env.NODE_ENV !== "production";
-const server = dev ? "http://localhost:3000" : "https://lucycoding.com";
 
 export async function getStaticPaths() {
   let blogs = [];
 
-    const res = await axios.get(`${server}/api/getPost`);
+    const res = await axios.get(`/api/getPost`);
     blogs = res.data;
   
 
@@ -23,7 +21,7 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   let blog = {};
 
-  const res = await axios.get(`${server}/api/getPost/${params.id}`);
+  const res = await axios.get(`/api/getPost/${params.id}`);
   blog = res.data;
 
   return { props: { blog }, revalidate: 60 };
