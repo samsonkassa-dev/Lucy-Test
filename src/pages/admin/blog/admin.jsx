@@ -53,15 +53,15 @@ export default function Form() {
   const [isLoading, setIsLoading] = useState(true);
   const { data: session, status } = useSession();
 
-
   
   useEffect(() => {
+    if (status === "loading") return;
     if (!session) {
-      // User is not authenticated, show sign-in prompt
       signIn();
+    } else {
+      setIsLoading(false);
     }
-  }, [session]);
-
+  }, [session, status]);
 
   useEffect(() => {
     const fetchData = async () => {
