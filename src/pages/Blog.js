@@ -26,6 +26,9 @@ const BlogPage = () => {
     fetchData();
   }, []);
 
+
+  console.log(blogs)
+
   useEffect(() => {
     if (blogs) {
       const overviews = blogs.map((blog) => {
