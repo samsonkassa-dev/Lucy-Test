@@ -5,29 +5,54 @@ import parse, { domToReact } from 'html-react-parser';
 import { useState, useEffect } from "react";
 
 
-const BlogPage = () => {
+
+// const dev = process.env.NODE_ENV !== "production";
+// const server = dev ? "http://localhost:3000" : "https://lucycoding.com";
+
+
+
+
+
+const dev = process.env.NODE_ENV !== "production";
+const server = dev ? "http://localhost:3000" : "https://lucycoding.com";
+
+export async function getStaticProps() {
+  let blogs = [];
+  if(dev){
+
+    const res = await axios.get(`${server}/api/getPost`);
+    blogs = res.data;
+  }
+
+  return {
+    props: {
+      blogs,
+    },
+    revalidate: 60,
+  };
+}
+
+
+const BlogPage = ({blogs}) => {
   const [blogOverviews, setBlogOverviews] = useState([]);
-  const [blogs, setBlogs] = useState([]);
+  // const [blogs, setBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get('/api/getPost'); 
-        setBlogs(res.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await axios.get('api/getPost'); // Replace with your actual API endpoint
+  //       setBlogs(res.data);
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
-
-
-  console.log(blogs)
+  //   fetchData();
+  // }, []);
 
   useEffect(() => {
     if (blogs) {
