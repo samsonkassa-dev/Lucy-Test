@@ -9,6 +9,9 @@ import TipTap from '../../../components/TipTap.js';
 import { useRef } from 'react';
 import { useSession, signIn } from 'next-auth/react';
 import axios from 'axios'
+import Image from 'next/image'
+import EditForm from '../../../components/EditForm.js';
+import { useDeleteForm } from '../../../hooks/useDeleteBlogs.jsx';
 
 
 
@@ -22,36 +25,60 @@ const schema = z.object({
 });
 
 
-const dev = process.env.NODE_ENV !== "production";
-const server = dev ? "http://localhost:3000" : "https://lucy-test.vercel.app";
+// const dev = process.env.NODE_ENV !== "production";
+// const server = dev ? "http://localhost:3000" : "https://lucycoding.com";
 
-export async function getStaticProps() {
-  let blogs = [];
+// export async function getStaticProps() {
+//   let blogs = [];
 
-  const res = await axios.get(`${server}/api/getPost`);
-  blogs = res.data;
+//   const res = await axios.get(`${server}/api/getPost`);
+//   blogs = res.data;
 
-  return {
-    props: {
-      blogs,
-    },
-    revalidate: 60,
-  };
-}
+//   return {
+//     props: {
+//       blogs,
+//     },
+//     revalidate: 60,
+//   };
+// }
 
 
 
 export default function Form() {
-  const { data: session, status } = useSession();
+ 
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [selectedBlog, setSelectedBlog] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [blogs, setBlogs] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const { data: session, status } = useSession();
 
 
+  
   useEffect(() => {
     if (status === "loading") return;
     if (!session) {
       signIn();
+
     }
   }, [session, status]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get('/api/getPost'); // Replace with your actual API endpoint
+        setBlogs(res.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
 
   const [file, setFile] = useState();
   const editorRef = useRef();
@@ -71,6 +98,8 @@ export default function Form() {
   };
 
   const { postForm } = usePostForm();
+  const { deleteForm } = useDeleteForm();
+  
 
   const onSubmit = async (data) => {
     // console.log(data);
@@ -107,11 +136,31 @@ export default function Form() {
     }
   };
 
+  const handleEdit = (blogId) => {
+    // Find the blog with the given ID
+    const blog = blogs.find((blog) => blog.id === blogId);
+    setSelectedBlog(blog);
+    setIsEditing(true);
+  };
 
-  
+  const handleEditSuccess = () => {
+    // Update the UI after a successful edit operation
+    setIsEditing(false);
+    setSelectedBlog(null);
+    // Fetch all blogs again to get the updated data
+  };
+
+
+
+  const handleDelete  = async (id) => {
+    await deleteForm(id);
+  };
+
+
+
 
   return (
-    <>
+    <div className="h-screen">
       <div className="flex flex-col items-center justify-center max-w-max mx-auto mt-36 sm:flex-row sm:justify-center">
         <h1 class="text-5xl font-indie font-semibold text-yellow text-center sm:text-6xl">
           {isFormVisible ? "Post Blogs" : "Edit Blogs"}
@@ -122,6 +171,7 @@ export default function Form() {
             type="button"
             onClick={() => {
               setIsFormVisible(!isFormVisible);
+              setIsEditing(false);
             }}
             className="focus:outline-none text-white bg-purple hover:bg-purple focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2"
           >
@@ -131,10 +181,10 @@ export default function Form() {
       </div>
 
       {isFormVisible && (
-        <div className="flex mx-5 items-center justify-center rounded py-7 transition-all duration-500">
+        <div className="flex mx-5 items-center  justify-center rounded py-7 transition-all duration-500">
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="w-full md:w-[70%] space-y-4 max-w-3xl mt-24 bg-white p-8 rounded shadow-lg"
+            className="w-full md:w-[70%] space-y-4 max-w-3xl  bg-white p-8 rounded shadow-lg"
           >
             <div>
               <label
@@ -237,9 +287,56 @@ export default function Form() {
         </div>
       )}
 
+      {!isFormVisible && blogs && (
+        <section className="md:mx-[95px] mb-10 mx-[34px] mt-12 rounded-3xl grid lg:grid-cols-3 md:gap-10 ">
+          {blogs.map((blog) => (
+            <div
+              key={blog.id}
+              className="overflow-hidden rounded-lg shadow transition"
+            >
+              <div className="w-full h-56 relative">
+                <Image
+                  src={blog.image}
+                  alt="Blog One"
+                  layout="fill"
+                  objectFit="cover"
+                  className=""
+                />
+              </div>
 
+              <div className="bg-white p-4 sm:p-6">
+                <time
+                  datetime={new Date(blog.date).toISOString()}
+                  className="block text-xs text-gray-500"
+                >
+                  {new Date(blog.date).toLocaleDateString()}
+                </time>
 
-    </>
+                <h3 className="mt-0.5 text-lg text-gray-900">{blog.title}</h3>
+                <div className="flex mt-5 gap-10">
+                  <button
+                    className="focus:outline-none text-white bg-yellow hover:bg-yellow focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2"
+                    onClick={() => handleEdit(blog.id)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="focus:outline-none text-white bg-purple hover:bg-purple focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2"
+                    onClick={() => handleDelete(blog.id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </section>
+      )}
+
+      {isEditing && (
+        <EditForm blog={selectedBlog} setIsEditing={setIsEditing} onEditSuccess={handleEditSuccess} />
+      )}
+    </div>
   );
 }
 

@@ -5,26 +5,48 @@ import parse, { domToReact } from 'html-react-parser';
 import { useState, useEffect } from "react";
 
 
-const dev = process.env.NODE_ENV !== "production";
-const server = dev ? "http://localhost:3000" : "https://lucy-test.vercel.app";
 
-export async function getStaticProps() {
-  let blogs = [];
+// const dev = process.env.NODE_ENV !== "production";
+// const server = dev ? "http://localhost:3000" : "https://lucycoding.com";
 
-  const res = await axios.get(`${server}/api/getPost`);
-  blogs = res.data;
+// export async function getStaticProps() {
+//   try {
+//     const res = await axios.get(`${server}/api/getPost`); // Replace with your actual API endpoint
+//     const blogs = res.data;
 
-  return {
-    props: {
-      blogs,
-    },
-    revalidate: 60,
-  };
-}
+//     return {
+//       props: { blogs },
+//       revalidate: 60, // Set your desired revalidation interval
+//     };
+//   } catch (error) {
+//     console.error('Error fetching data:', error);
+//     return {
+//       props: { blogs: [] }, // Return an empty array or handle the error as needed
+//       revalidate: 60,
+//     };
+//   }
+// }
 
-
-const BlogPage = ({ blogs }) => {
+const BlogPage = () => {
   const [blogOverviews, setBlogOverviews] = useState([]);
+  const [blogs, setBlogs] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get('/api/getPost'); // Replace with your actual API endpoint
+        setBlogs(res.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     if (blogs) {
@@ -47,9 +69,9 @@ const BlogPage = ({ blogs }) => {
         };
 
         const parsedContent = parse(blog.content, options);
-        const firstParagraph = parsedContent.find(
-          (element) => element.type === "p"
-        );
+        const contentArray = Array.isArray(parsedContent) ? parsedContent : [parsedContent];
+        const firstParagraph = contentArray.find((element) => element.type === "p");
+        
 
         return {
           ...blog,
@@ -65,7 +87,18 @@ const BlogPage = ({ blogs }) => {
     return <div>Loading...</div>;
   }
 
-  return <Blog blogs={blogOverviews} />;
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      {isLoading ? (
+        <div className="animate-spin rounded-full border-t-4 border-yellow border-opacity-25 h-12 w-12"></div>
+      ) : (
+        <div>
+          {/* Wrap the Blog component in a neutral container */}
+          <Blog blogs={blogOverviews} />
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default BlogPage;

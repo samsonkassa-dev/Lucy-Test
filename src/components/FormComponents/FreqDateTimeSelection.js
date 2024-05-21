@@ -1,6 +1,5 @@
 import { Fragment, useEffect, useState, useContext } from "react";
 import { loadStripe } from "@stripe/stripe-js";
-import { DatePicker } from "@mantine/dates";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
@@ -93,6 +92,8 @@ export default function DatePickerPage(props) {
     setUserDefaultTimezone("AddisAbaba/Ethiopia");
   }, [selectedSession]);
 
+  // re-run this effect when `selectedSession` changes
+  // re-run this effect when `isInputClicked` changes
 
   const recommendationArray = state.getState().studentRecommendation;
   const userId =
@@ -101,6 +102,8 @@ export default function DatePickerPage(props) {
 
   const [selectedCourseIndex, setSelectedCourseIndex] = useState(0);
   const [selectedValues, setSelectedValues] = useState([]);
+
+  const [showFrequency, setShowFrequency] = useState(false);
 
   const setSelectedTap = state.getState().actions.setSelectedTap;
   const selectedTap = state.getState().selectedTap;
@@ -265,9 +268,13 @@ export default function DatePickerPage(props) {
       console.log(found, "found");
       return { ...item, ...found };
     });
-    console.log(trainingFrequencyArr, "trainingFrequencyArr");
+    // console.log(trainingFrequencyArr, "trainingFrequencyArr");
     state.getState().actions.setCheckoutSession(trainingFrequencyArr);
-    console.log(state.getState().checkoutSession);
+    // console.log(state.getState().checkoutSession);
+
+    {
+      /* 
+  the below is for the checkout page
 
     if(clickedPrice==="100$") {
       props.next();
@@ -287,8 +294,24 @@ export default function DatePickerPage(props) {
         toast.error("An error occurred. Please try again.");
       }
       }
+    }*/
     }
-    
+
+    try {
+      const { data } = await axios.post("/v1/order/createCheckout", {
+        items: trainingFrequencyArr,
+      });
+
+      const resetSelectedCourse = state.getState().actions.resetSelectedCourse;
+      resetSelectedCourse();
+
+      router.push(data?.url);
+    } catch (error) {
+      // Handle error
+      console.error(error);
+      toast.error("An error occurred. Please try again.");
+    }
+  };
 
   const handleRadioChange = (e) => {
     // Get the new value from the clicked radio button
@@ -357,7 +380,7 @@ export default function DatePickerPage(props) {
 
   const handleTapSelection = (tap) => {
     setSelectedTap(tap);
-    
+
     setSelectedCourseIndex(tap === 1 ? 0 : 1);
   };
 
@@ -422,230 +445,228 @@ export default function DatePickerPage(props) {
             </div> */}
 
             <div>
-
-            <div className="flex sm:flex-row flex-col mt-10 sm:gap-x-32 sm:ml-10 justify-center items-center mb-10 w-full">
-              <div className=" h-auto flex flex-col mx-auto mt-5">
-                <div className="self-center relative flex justify-center items-center">
-                  <input
-                    type="radio"
-                    id={`Session1`}
-                    name={`Session`}
-                    dateValue="2023/06/28"
-                    onChange={(e) => {
-                      const dateValue = e.target.getAttribute("dateValue");
-                      handleRadioChangeFreq(e);
-                      handleDateChange(dateValue);
-                      setClickedPrice("100$");
-                      console.log("radio button value", e.target.value);
-                    }}
-                    value={`1`}
-                    className={`cursor-pointer absolute top-0 bottom-0 w-72 h-24 text-center mx-auto mt-6 border appearance-none checked:border-2 checked:border-yellow  checked:text-black checked:font-semibold border-gray-600 text-gray-2 rounded-md  focus:outline-none  hover:border-yellow`}
-                  />
-                  <label
-                    htmlFor={`Session1`}
-                    className={`mt-8 ${"text-black font-semibold"}`}
-                  >
-                    <div className="w-full flex flex-col gap-y-1 items-center cursor-pointer justify-center text-center">
-                      <p>
-                        {
-                          props.selectedLocale.registerPage.frequency.session[0]
-                            .title
-                        }
-                      </p>
-                      <p className="text-sm text-yellow font-semibold">
-                        {
-                          props.selectedLocale.registerPage.frequency.session[0]
-                            .time
-                        }
-                      </p>
-                      <div className="flex items-center flex-wrap">
+              <div className="flex sm:flex-row flex-col mt-10 sm:gap-x-32 sm:ml-10 justify-center items-center mb-10 w-full">
+                <div className=" h-auto flex flex-col mx-auto mt-5">
+                  <div className="self-center relative flex justify-center items-center">
+                    <input
+                      type="radio"
+                      id={`Session1`}
+                      name={`Session`}
+                      dateValue="2023/06/28"
+                      onChange={(e) => {
+                        const dateValue = e.target.getAttribute("dateValue");
+                        handleRadioChangeFreq(e);
+                        handleDateChange(dateValue);
+                        setClickedPrice("300$");
+                        console.log("radio button value", e.target.value);
+                      }}
+                      value={`1`}
+                      className={`cursor-pointer absolute top-0 bottom-0 w-72 h-24 text-center mx-auto mt-6 border appearance-none checked:border-2 checked:border-yellow  checked:text-black checked:font-semibold border-gray-600 text-gray-2 rounded-md  focus:outline-none  hover:border-yellow`}
+                    />
+                    <label
+                      htmlFor={`Session1`}
+                      className={`mt-8 ${"text-black font-semibold"}`}
+                    >
+                      <div className="w-full flex flex-col gap-y-1 items-center cursor-pointer justify-center text-center">
                         <p>
                           {
                             props.selectedLocale.registerPage.frequency
-                              .session[0].price
+                              .session[0].title
                           }
-                          &nbsp;{" "}
                         </p>
-       
+                        <p className="text-sm text-yellow font-semibold">
+                          {
+                            props.selectedLocale.registerPage.frequency
+                              .session[0].time
+                          }
+                        </p>
+                        <div className="flex items-center flex-wrap">
+                          <p>
+                            {
+                              props.selectedLocale.registerPage.frequency
+                                .session[0].price
+                            }
+                            &nbsp;{" "}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  </label>
-                </div>
-                <div className="self-center relative flex justify-center items-center">
-                  <input
-                    type="radio"
-                    id={`Session2`}
-                    name={`Session`}
-                    dateValue="2023/07/06"
-                    onChange={(e) => {
-                      const dateValue = e.target.getAttribute("dateValue");
-                      handleRadioChangeFreq(e);
-                      handleDateChange(dateValue);
-                      console.log("Price clicked two"); // This should print when the price is clicked
-                      setClickedPrice("285$");
-                    }}
-                    value={`2`}
-                    className={`cursor-pointer absolute top-0 bottom-0 w-72 h-24 text-center mx-auto mt-6 border appearance-none checked:border-2 checked:border-yellow  checked:text-black checked:font-semibold border-gray-600 text-gray-2 rounded-md  focus:outline-none  hover:border-yellow`}
-                  />
-                  <label
-                    htmlFor={`Session2`}
-                    className={`mt-8 ${"text-black font-semibold"}`}
-                  >
-                    <div className="w-full flex flex-col gap-y-1 items-center cursor-pointer justify-center text-center">
-                      <p>
-                        {
-                          props.selectedLocale.registerPage.frequency.session[1]
-                            .title
-                        }
-                      </p>
-                      <p className="text-sm text-yellow font-semibold">
-                        {
-                          props.selectedLocale.registerPage.frequency.session[1]
-                            .time
-                        }
-                      </p>
-                      <div className="flex items-center flex-wrap">
+                    </label>
+                  </div>
+                  <div className="self-center relative flex justify-center items-center">
+                    <input
+                      type="radio"
+                      id={`Session2`}
+                      name={`Session`}
+                      dateValue="2023/07/06"
+                      onChange={(e) => {
+                        const dateValue = e.target.getAttribute("dateValue");
+                        handleRadioChangeFreq(e);
+                        handleDateChange(dateValue);
+                        console.log("Price clicked two");
+                        setClickedPrice("300$");
+                      }}
+                      value={`2`}
+                      className={`cursor-pointer absolute top-0 bottom-0 w-72 h-24 text-center mx-auto mt-6 border appearance-none checked:border-2 checked:border-yellow  checked:text-black checked:font-semibold border-gray-600 text-gray-2 rounded-md  focus:outline-none  hover:border-yellow`}
+                    />
+                    <label
+                      htmlFor={`Session2`}
+                      className={`mt-8 ${"text-black font-semibold"}`}
+                    >
+                      <div className="w-full flex flex-col gap-y-1 items-center cursor-pointer justify-center text-center">
                         <p>
                           {
                             props.selectedLocale.registerPage.frequency
-                              .session[1].price
+                              .session[1].title
                           }
-                          &nbsp;{" "}
                         </p>
-     
+                        <p className="text-sm text-yellow font-semibold">
+                          {
+                            props.selectedLocale.registerPage.frequency
+                              .session[1].time
+                          }
+                        </p>
+                        <div className="flex items-center flex-wrap">
+                          <p>
+                            {
+                              props.selectedLocale.registerPage.frequency
+                                .session[1].price
+                            }
+                            &nbsp;{" "}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  </label>
+                    </label>
+                  </div>
                 </div>
-              </div>
 
-              <div className="pt-10 md:pt-0">
-                <h3 className="font-semibold">{props.selectedLocale.registerPage.timezone}</h3>
-                <div className="flex items-center justify-start">
-                  <div className="pt-4">
-                    <div className="flex justify-start">
-                      <div>
-                        <Listbox onChange={handleTimezoneChange}>
-                          <div className="relative mr-1 z-50 ">
-                            <Listbox.Button className="relative flex min-w-[15rem] w-full cursor-default border rounded-md border-transparent bg-white -mt-2 text-left focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-                              <img
-                                className="w-4 h-4 mr-2"
-                                alt=""
-                                src="/Icon.png"
-                              />
-                              <span className="block truncate">
-                                {userDefaultTimezone}
-                              </span>
-                              <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                                <ChevronUpDownIcon
-                                  className="h-5 w-5 text-gray-400"
-                                  aria-hidden="true"
+                <div className="pt-10 md:pt-0">
+                  <h3 className="font-semibold">
+                    {props.selectedLocale.registerPage.timezone}
+                  </h3>
+                  <div className="flex items-center justify-start">
+                    <div className="pt-4">
+                      <div className="flex justify-start">
+                        <div>
+                          <Listbox onChange={handleTimezoneChange}>
+                            <div className="relative mr-1 z-50 ">
+                              <Listbox.Button className="relative flex min-w-[15rem] w-full cursor-default border rounded-md border-transparent bg-white -mt-2 text-left focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                                <img
+                                  className="w-4 h-4 mr-2"
+                                  alt=""
+                                  src="/Icon.png"
                                 />
-                              </span>
-                            </Listbox.Button>
-                            <Transition
-                              as={Fragment}
-                              leave="transition ease-in duration-100"
-                              leaveFrom="opacity-100"
-                              leaveTo="opacity-0"
-                            >
-                              <Listbox.Options className="absolute mt-1 max-h-60 w-96 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                                {timeZones.map((tz, tzIdx) => (
-                                  <Listbox.Option
-                                    key={tzIdx}
-                                    className={({ active }) =>
-                                      `relative cursor-default select-none py-2 pl-2 pr-4 ${
-                                        active
-                                          ? "bg-amber-100 text-amber-900"
-                                          : "text-gray-900"
-                                      }`
-                                    }
-                                    value={tz}
-                                  >
-                                    {({ selected }) => (
-                                      <div className="flex">
-                                        <span
-                                          className={`block mr-[2px] ${
-                                            selected
-                                              ? "font-medium"
-                                              : "font-normal"
-                                          }`}
-                                        >
-                                          {tz.abbreviation}
-                                        </span>
-                                        <span
-                                          className={`block ${
-                                            selected
-                                              ? "font-medium"
-                                              : "font-normal"
-                                          }`}
-                                        >
-                                          {`(${tz.offset})`} &nbsp;
-                                        </span>
-                                        <span
-                                          className={`block ${
-                                            selected
-                                              ? "font-medium"
-                                              : "font-normal"
-                                          }`}
-                                        >
-                                          {tz.fullName}
-                                        </span>
-                                        {selected && (
-                                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                                            <CheckIcon
-                                              className="h-5 w-5"
-                                              aria-hidden="true"
-                                            />
+                                <span className="block truncate">
+                                  {userDefaultTimezone}
+                                </span>
+                                <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                                  <ChevronUpDownIcon
+                                    className="h-5 w-5 text-gray-400"
+                                    aria-hidden="true"
+                                  />
+                                </span>
+                              </Listbox.Button>
+                              <Transition
+                                as={Fragment}
+                                leave="transition ease-in duration-100"
+                                leaveFrom="opacity-100"
+                                leaveTo="opacity-0"
+                              >
+                                <Listbox.Options className="absolute mt-1 max-h-60 w-96 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                                  {timeZones.map((tz, tzIdx) => (
+                                    <Listbox.Option
+                                      key={tzIdx}
+                                      className={({ active }) =>
+                                        `relative cursor-default select-none py-2 pl-2 pr-4 ${
+                                          active
+                                            ? "bg-amber-100 text-amber-900"
+                                            : "text-gray-900"
+                                        }`
+                                      }
+                                      value={tz}
+                                    >
+                                      {({ selected }) => (
+                                        <div className="flex">
+                                          <span
+                                            className={`block mr-[2px] ${
+                                              selected
+                                                ? "font-medium"
+                                                : "font-normal"
+                                            }`}
+                                          >
+                                            {tz.abbreviation}
                                           </span>
-                                        )}
-                                      </div>
-                                    )}
-                                  </Listbox.Option>
-                                ))}
-                              </Listbox.Options>
-                            </Transition>
-                          </div>
-                        </Listbox>
+                                          <span
+                                            className={`block ${
+                                              selected
+                                                ? "font-medium"
+                                                : "font-normal"
+                                            }`}
+                                          >
+                                            {`(${tz.offset})`} &nbsp;
+                                          </span>
+                                          <span
+                                            className={`block ${
+                                              selected
+                                                ? "font-medium"
+                                                : "font-normal"
+                                            }`}
+                                          >
+                                            {tz.fullName}
+                                          </span>
+                                          {selected && (
+                                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                                              <CheckIcon
+                                                className="h-5 w-5"
+                                                aria-hidden="true"
+                                              />
+                                            </span>
+                                          )}
+                                        </div>
+                                      )}
+                                    </Listbox.Option>
+                                  ))}
+                                </Listbox.Options>
+                              </Transition>
+                            </div>
+                          </Listbox>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                {times.map((t, timeIndex) => {
-                  const time = t.time;
-                  const value = `${time}.${defaultTimes[timeIndex]}`;
-                  const isChecked = selectedTime === value;
+                  {times.map((t, timeIndex) => {
+                    const time = t.time;
+                    const value = `${time}.${defaultTimes[timeIndex]}`;
+                    const isChecked = selectedTime === value;
 
-                  return (
-                    <div
-                      className="self-center relative flex justify-center items-center"
-                      key={timeIndex}
-                    >
-                      <input
-                        type="radio"
-                        id={`time`}
-                        name={`time`}
-                        onChange={(e) => handleRadioChange(e)}
-                        value={value}
-                        className={`cursor-pointer absolute top-0 bottom-0 w-60 h-11 text-center mx-auto mt-6 border appearance-none checked:border-2 checked:border-yellow checked:text-black checked:font-semibold border-gray-600 text-gray-2 rounded-md focus:outline-none hover:border-yellow`}
-                      />
-                      <label
-                        htmlFor={`time`}
-                        className={`mt-8 ${
-                          isChecked
-                            ? "text-black font-semibold"
-                            : "text-gray-700"
-                        }`}
+                    return (
+                      <div
+                        className="self-center relative flex justify-center items-center"
+                        key={timeIndex}
                       >
-                        {time}
-                      </label>
-                    </div>
-                  );
-                })}
+                        <input
+                          type="radio"
+                          id={`time`}
+                          name={`time`}
+                          onChange={(e) => handleRadioChange(e)}
+                          value={value}
+                          className={`cursor-pointer absolute top-0 bottom-0 w-60 h-11 text-center mx-auto mt-6 border appearance-none checked:border-2 checked:border-yellow checked:text-black checked:font-semibold border-gray-600 text-gray-2 rounded-md focus:outline-none hover:border-yellow`}
+                        />
+                        <label
+                          htmlFor={`time`}
+                          className={`mt-8 ${
+                            isChecked
+                              ? "text-black font-semibold"
+                              : "text-gray-700"
+                          }`}
+                        >
+                          {time}
+                        </label>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
-            </div>
-
 
             <div className="flex items-center justify-center gap-x-32 my-4 w-full">
               <button

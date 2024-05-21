@@ -13,7 +13,7 @@ const nextConfig = {
   //new
   env: {
     API_URL: localEnv.API_URL,
-    OPENCAGE_API_KEY: localEnv.OPENCAGE_API_KEY,
+    // OPENCAGE_API_KEY: localEnv.OPENCAGE_API_KEY,
   },
   i18n: {
     locales: ["en-US", "am-ET"],

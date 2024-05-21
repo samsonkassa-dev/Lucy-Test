@@ -117,7 +117,7 @@ function Frequency(props) {
               name={`Session`}
               onChange={(e) => {
                 handleRadioChange(e);
-                setClickedPrice("135$");
+                setClickedPrice("365$");
               }}
               onClick={(e) => handleRadioClick(e)}
               value={`1`}
@@ -159,7 +159,7 @@ function Frequency(props) {
               name={`Session`}
               onChange={(e) => {
                 handleRadioChange(e);
-                setClickedPrice("360$");
+                setClickedPrice("365$");
               }}
               onClick={(e) => handleRadioClick(e)}
               value={`2`}

@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-
-
+import Footer from "./Footer";
 
 const Blog = ({ blogs }) => {
   const highPriorityBlogs = blogs.filter((blog) => blog.priority === "High");
+  
   const otherBlogs = blogs.filter((blog) => blog.priority !== "High");
 
   // console.log(otherBlogs);
@@ -89,53 +89,46 @@ const Blog = ({ blogs }) => {
         </section>
       )}
 
-      {otherBlogs &&
-        otherBlogs.length > 0 &&
-        otherBlogs.map((blog, index) => (
-          <section
-            key={index}
-            className="md:mx-[95px] mb-10 mx-[34px] mt-12 rounded-3xl relative"
-          >
-            <div
-              className={`md:flex ${
-                blog.length > 1 ? "w-[50%]" : "w-full"
-              } gap-12 `}
-            >
-              <div className="md:w-[50%]">
-                <Image
-                  src={blog.image}
-                  alt="Blog One"
-                  width={592}
-                  height={364}
-                  objectFit="contain"
-                  className="rounded-3xl"
-                />
-              </div>
-              <div className=" md:w-[50%] flex flex-col justify-center text-center md:text-left">
-                <h1 className="text-[34px] py-3 font-semibold">
-                  {blog.title}
-                </h1>
-                <p className="text-[18px] text-[#1E1E1E] opacity-95">
-                  {blog.content}
-                </p>
-                <div className="py-8 flex justify-between">
-                  <p className="text-[#000000] text-[10px] md:text-[15px] opacity-50">
-                    Written By: {blog.author} |{" "}
-                    {new Date(blog.date).toLocaleDateString()}
+      <div className="md:mx-[95px] mb-64 mx-[34px] mt-12 rounded-3xl relative md:grid md:grid-cols-2 md:gap-20 ">
+        {otherBlogs &&
+          otherBlogs.length > 0 &&
+          otherBlogs.map((blog, index) => (
+            <div key={index} className="">
+              <section className="rounded-3xl w-full ">
+                <div className="w-full h-[364px] relative">
+                  <Image
+                    src={blog.image}
+                    alt="Blog One"
+                    layout="fill"
+                    objectFit="cover"
+                    className="rounded-3xl"
+                  />
+                </div>
+                <div className="w-full flex flex-col justify-center text-center md:text-left">
+                  <h1 className="text-[34px] py-3 font-semibold">
+                    {blog.title}
+                  </h1>
+                  <p className="text-[18px] text-[#1E1E1E] opacity-95">
+                    {blog.content}
                   </p>
-                  <div className="md:text-[16px] text-[10px] text-[#6743EE] font-semibold cursor-pointer">
-                    <Link href={`/blog/${blog.id}`}>Read More</Link>
+                  <div className="py-8 flex justify-between">
+                    <p className="text-[#000000] text-[10px] md:text-[15px] opacity-50">
+                      Written By: {blog.author} |{" "}
+                      {new Date(blog.date).toLocaleDateString()}
+                    </p>
+                    <div className="md:text-[16px] text-[10px] text-[#6743EE] font-semibold cursor-pointer">
+                      <Link href={`/blog/${blog.id}`}>Read More</Link>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </section>
             </div>
-          </section>
-        ))}
+          ))}
+      </div>
+
+      <Footer />
     </>
   );
 };
 
 export default Blog;
-
-
-

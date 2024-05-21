@@ -203,27 +203,27 @@
             {
               "title": "3 days/week",
               "Date": "Every Saturday ",
-              "time": "Feb 15 - May 10",
-              "price": "$100"
+              "time": "May 27 - June 24",
+              "price": "$300"
             },
 
             {
               "title": "4 days/week",
               "Date": "Every Tue and Thu",
-              "time": "Feb 15 - March 28",
-              "price": "$285"
+              "time": "May 27 - June 17",
+              "price": "$300"
             },
             {
               "title": "6 days/week",
               "time": "July 15 - August 10",
-              "price": "$260"
+              "price": "$300"
             }
           ],
           "sessionEnroll": [
             {
               "title": "3 days/week",
               "time": "Every Saturday",
-              "price": "$135"
+              "price": "$360"
             },
 
             {
@@ -483,17 +483,17 @@
           "session": [
             {
               "title": "3  ክፍለ ጊዜ / ሳምንት",
-              "time": "የካቲት 7 - ግንቦት 2",
+              "time": "ግንቦት 19 - ሰኔ 17",
               "Date": "ሁሌ ቅዳሜ",
-              "price": "$100",
+              "price": "$300",
               "metaData": "- 5% ቅድመ ክፍያ ቅናሽ"
             },
 
             {
               "title": "4  ክፍለ ጊዜ / ሳምንት  ",
-              "time": "የካቲት 7 - መጋቢት 19",
+              "time": "ግንቦት 19 - ሰኔ 10",
               "Date": "ሁሌ ማክሰኞ እና ሀሙስ",
-              "price": "$285",
+              "price": "$300",
               "metaData": "- 5% ቅድመ ክፍያ ቅናሽ"
             },
             {
@@ -507,7 +507,7 @@
             {
               "title": "3 ቀን/በሳምንት",
               "time": "ሁሌ ቅዳሜ",
-              "price": "$135"
+              "price": "$360"
             },
 
             {

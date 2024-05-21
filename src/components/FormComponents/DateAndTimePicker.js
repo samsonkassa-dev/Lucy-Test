@@ -192,7 +192,6 @@ export default function DatePickerPage(props) {
         }
       )
       .then((_) => {
-        
         createCheckOutSession();
       });
   };
@@ -250,18 +249,17 @@ export default function DatePickerPage(props) {
       RecommendedFor: item.RecommendedFor,
     }));
 
- 
     const trainingFrequencyArr = trainingFrequency.map((item) => {
       const found = courseData.find(
         (element) => element.courseId === item.courseId
       );
       let newPrice;
       if (found.price === 100) {
-        newPrice = 135;
-        setClickedPrice("135");
+        newPrice = 360;
+        setClickedPrice("360");
       } else if (found.price === 280) {
-        newPrice = 405;
-        setClickedPrice("405");
+        newPrice = 360;
+        setClickedPrice("360");
       }
       return { ...item, ...found, newPrice };
     });
@@ -270,7 +268,12 @@ export default function DatePickerPage(props) {
 
     state.getState().actions.setCheckoutSession(trainingFrequencyArr);
 
-    if (selectedSession.startsWith("Session1")) {
+    {
+      /* to call the checkout page for any changes the below can be used
+
+      check out is called for the first session which was once a week
+
+       if (selectedSession.startsWith("Session1")) {
       props.next();
     } else if (selectedSession.startsWith("Session2")) {
       
@@ -280,8 +283,20 @@ export default function DatePickerPage(props) {
 
     router.push(data?.url);
     }
-    
+  
+  */
+    }
 
+    try {
+      const { data } = await axios.post("/v1/order/createCheckout", {
+        items: trainingFrequencyArr,
+      });
+      router.push(data?.url);
+    } catch (error) {
+      // Handle error
+      console.error(error);
+      toast.error("An error occurred. Please try again.");
+    }
   };
 
   return (
@@ -308,144 +323,135 @@ export default function DatePickerPage(props) {
         ))}
       </div> */}
 
-            <div>
-              <div className="flex sm:flex-row flex-col mt-10 sm:gap-x-32 justify-center items-center mb-10 w-full">
-                <DatePicker
-                  value={students.selectedDate}
-                  onChange={(value) => handleDateChange(value)}
-                  minDate={minDate}
-                  excludeDate={(date) => {
-                    const day = date.getDay();
-                    return day !== 2 && day !== 4 && day !== 6;
-                  }}
-                />
-                <div className="">
-                  <h3 className="font-semibold">TimeZone</h3>
-                  <div className="flex items-center justify-start">
-                    <div className="pt-4">
-                      <div className="flex justify-start">
-                        <div>
-                          <Listbox onChange={handleTimezoneChange}>
-                            <div className="relative mr-1 z-50 ">
-                              <Listbox.Button className="relative flex min-w-[15rem] w-full cursor-default border rounded-md border-transparent bg-white -mt-2 text-left focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-                                <img
-                                  className="w-4 h-4 mr-2"
-                                  alt=""
-                                  src="/Icon.png"
-                                />
-                                <span className="block truncate">
-                                  {userDefaultTimezone}
-                                </span>
-                                <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                                  <ChevronUpDownIcon
-                                    className="h-5 w-5 text-gray-400"
-                                    aria-hidden="true"
-                                  />
-                                </span>
-                              </Listbox.Button>
-                              <Transition
-                                as={Fragment}
-                                leave="transition ease-in duration-100"
-                                leaveFrom="opacity-100"
-                                leaveTo="opacity-0"
-                              >
-                                <Listbox.Options className="absolute mt-1 max-h-60 w-96 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                                  {timeZones.map((tz, tzIdx) => (
-                                    <Listbox.Option
-                                      key={tzIdx}
-                                      className={({ active }) =>
-                                        `relative cursor-default select-none py-2 pl-2 pr-4 ${
-                                          active
-                                            ? "bg-amber-100 text-amber-900"
-                                            : "text-gray-900"
-                                        }`
-                                      }
-                                      value={tz}
-                                    >
-                                      {({ selected }) => (
-                                        <div className="flex">
-                                          <span
-                                            className={`block mr-[2px] ${
-                                              selected
-                                                ? "font-medium"
-                                                : "font-normal"
-                                            }`}
-                                          >
-                                            {tz.abbreviation}
-                                          </span>
-                                          <span
-                                            className={`block ${
-                                              selected
-                                                ? "font-medium"
-                                                : "font-normal"
-                                            }`}
-                                          >
-                                            {`(${tz.offset})`} &nbsp;
-                                          </span>
-                                          <span
-                                            className={`block ${
-                                              selected
-                                                ? "font-medium"
-                                                : "font-normal"
-                                            }`}
-                                          >
-                                            {tz.fullName}
-                                          </span>
-                                          {selected && (
-                                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                                              <CheckIcon
-                                                className="h-5 w-5"
-                                                aria-hidden="true"
-                                              />
-                                            </span>
-                                          )}
-                                        </div>
-                                      )}
-                                    </Listbox.Option>
-                                  ))}
-                                </Listbox.Options>
-                              </Transition>
-                            </div>
-                          </Listbox>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {times.map((t, timeIndex) => {
-                  const time = t.time;
-                  const value = `${time}.${defaultTimes[timeIndex]}`;
-                  const isChecked = selectedTime === value;
-
-                    return (
-                      <div
-                        className="self-center relative flex justify-center items-center"
-                        key={timeIndex}
-                      >
-                        <input
-                          type="radio"
-                          id={`time`}
-                          name={`time`}
-                          onChange={(e) => handleRadioChange(e)}
-                          value={value}
-                          className={`cursor-pointer absolute top-0 bottom-0 w-60 h-11 text-center mx-auto mt-6 border appearance-none checked:border-2 checked:border-yellow checked:text-black checked:font-semibold border-gray-600 text-gray-2 rounded-md focus:outline-none hover:border-yellow`}
-                        />
-                        <label
-                          htmlFor={`time`}
-                          className={`mt-8 ${
-                            isChecked
-                              ? "text-black font-semibold"
-                              : "text-gray-700"
-                          }`}
+      <div>
+        <div className="flex sm:flex-row flex-col mt-10 sm:gap-x-32 justify-center items-center mb-10 w-full">
+          <DatePicker
+            value={students.selectedDate}
+            onChange={(value) => handleDateChange(value)}
+            minDate={minDate}
+            excludeDate={(date) => {
+              const day = date.getDay();
+              return day !== 2 && day !== 4 && day !== 6;
+            }}
+          />
+          <div className="">
+            <h3 className="font-semibold">TimeZone</h3>
+            <div className="flex items-center justify-start">
+              <div className="pt-4">
+                <div className="flex justify-start">
+                  <div>
+                    <Listbox onChange={handleTimezoneChange}>
+                      <div className="relative mr-1 z-50 ">
+                        <Listbox.Button className="relative flex min-w-[15rem] w-full cursor-default border rounded-md border-transparent bg-white -mt-2 text-left focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                          <img
+                            className="w-4 h-4 mr-2"
+                            alt=""
+                            src="/Icon.png"
+                          />
+                          <span className="block truncate">
+                            {userDefaultTimezone}
+                          </span>
+                          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                            <ChevronUpDownIcon
+                              className="h-5 w-5 text-gray-400"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        </Listbox.Button>
+                        <Transition
+                          as={Fragment}
+                          leave="transition ease-in duration-100"
+                          leaveFrom="opacity-100"
+                          leaveTo="opacity-0"
                         >
-                          {time}
-                        </label>
+                          <Listbox.Options className="absolute mt-1 max-h-60 w-96 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                            {timeZones.map((tz, tzIdx) => (
+                              <Listbox.Option
+                                key={tzIdx}
+                                className={({ active }) =>
+                                  `relative cursor-default select-none py-2 pl-2 pr-4 ${
+                                    active
+                                      ? "bg-amber-100 text-amber-900"
+                                      : "text-gray-900"
+                                  }`
+                                }
+                                value={tz}
+                              >
+                                {({ selected }) => (
+                                  <div className="flex">
+                                    <span
+                                      className={`block mr-[2px] ${
+                                        selected ? "font-medium" : "font-normal"
+                                      }`}
+                                    >
+                                      {tz.abbreviation}
+                                    </span>
+                                    <span
+                                      className={`block ${
+                                        selected ? "font-medium" : "font-normal"
+                                      }`}
+                                    >
+                                      {`(${tz.offset})`} &nbsp;
+                                    </span>
+                                    <span
+                                      className={`block ${
+                                        selected ? "font-medium" : "font-normal"
+                                      }`}
+                                    >
+                                      {tz.fullName}
+                                    </span>
+                                    {selected && (
+                                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                                        <CheckIcon
+                                          className="h-5 w-5"
+                                          aria-hidden="true"
+                                        />
+                                      </span>
+                                    )}
+                                  </div>
+                                )}
+                              </Listbox.Option>
+                            ))}
+                          </Listbox.Options>
+                        </Transition>
                       </div>
-                    );
-                  })}
+                    </Listbox>
+                  </div>
                 </div>
               </div>
             </div>
-          
+            {times.map((t, timeIndex) => {
+              const time = t.time;
+              const value = `${time}.${defaultTimes[timeIndex]}`;
+              const isChecked = selectedTime === value;
+
+              return (
+                <div
+                  className="self-center relative flex justify-center items-center"
+                  key={timeIndex}
+                >
+                  <input
+                    type="radio"
+                    id={`time`}
+                    name={`time`}
+                    onChange={(e) => handleRadioChange(e)}
+                    value={value}
+                    className={`cursor-pointer absolute top-0 bottom-0 w-60 h-11 text-center mx-auto mt-6 border appearance-none checked:border-2 checked:border-yellow checked:text-black checked:font-semibold border-gray-600 text-gray-2 rounded-md focus:outline-none hover:border-yellow`}
+                  />
+                  <label
+                    htmlFor={`time`}
+                    className={`mt-8 ${
+                      isChecked ? "text-black font-semibold" : "text-gray-700"
+                    }`}
+                  >
+                    {time}
+                  </label>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
 
       <div className="flex items-center justify-center gap-x-32 my-4 w-full">
         <button
@@ -462,10 +468,7 @@ export default function DatePickerPage(props) {
         </button>{" "}
         <button
           onClick={() => {
-      
-
-              handleNext();
-            
+            handleNext();
           }}
           className="bg-yellow w-245 h-48 border-solid rounded-md font-bold"
         >

@@ -4,7 +4,7 @@ import axios from "axios";
 import parse, { domToReact } from "html-react-parser";
 
 const dev = process.env.NODE_ENV !== "production";
-const server = dev ? "http://localhost:3000" : "https://lucy-test.vercel.app";
+const server = dev ? "http://localhost:3000" : "https://lucycoding.com";
 
 export async function getStaticPaths() {
   let blogs = [];
