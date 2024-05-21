@@ -56,12 +56,12 @@ export default function Form() {
 
   
   useEffect(() => {
-    if (status === "loading") return;
     if (!session) {
+      // User is not authenticated, show sign-in prompt
       signIn();
-
     }
-  }, [session, status]);
+  }, [session]);
+
 
   useEffect(() => {
     const fetchData = async () => {
