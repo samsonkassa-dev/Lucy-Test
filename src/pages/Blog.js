@@ -7,12 +7,14 @@ import { useState, useEffect } from "react";
 
 
 
+const dev = process.env.NODE_ENV !== "production";
+const server = dev ? "http://localhost:3000" : "https://lucycoding.com";
 
 
 
 
 export async function getStaticProps() {
-  const res = await axios.get('https://lucy-test.vercel.app/api/getPost');
+  const res = await axios.get(`${server}/api/getPost`);
   const blogs = res.data;
 
   return {
@@ -24,11 +26,10 @@ export async function getStaticProps() {
 }
 
 
-const BlogPage = ({blogs}) => {
+const BlogPage = ({ blogs }) => {
   const [blogOverviews, setBlogOverviews] = useState([]);
   // const [blogs, setBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -66,9 +67,12 @@ const BlogPage = ({blogs}) => {
         };
 
         const parsedContent = parse(blog.content, options);
-        const contentArray = Array.isArray(parsedContent) ? parsedContent : [parsedContent];
-        const firstParagraph = contentArray.find((element) => element.type === "p");
-        
+        const contentArray = Array.isArray(parsedContent)
+          ? parsedContent
+          : [parsedContent];
+        const firstParagraph = contentArray.find(
+          (element) => element.type === "p"
+        );
 
         return {
           ...blog,
@@ -84,12 +88,7 @@ const BlogPage = ({blogs}) => {
     return <div>Loading...</div>;
   }
 
-  return (
-
-          <Blog blogs={blogOverviews} />
-     
-   
-  );
+  return <Blog blogs={blogOverviews} />;
 };
 
 export default BlogPage;
