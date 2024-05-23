@@ -25,22 +25,22 @@ const schema = z.object({
 });
 
 
-// const dev = process.env.NODE_ENV !== "production";
-// const server = dev ? "http://localhost:3000" : "https://lucycoding.com";
+const dev = process.env.NODE_ENV !== "production";
+const server = dev ? "http://localhost:3000" : "https://lucy-test.vercel.app";
 
-// export async function getStaticProps() {
-//   let blogs = [];
+export async function getStaticProps() {
+  let blogs = [];
 
-//   const res = await axios.get(`${server}/api/getPost`);
-//   blogs = res.data;
+  const res = await axios.get(`${server}/api/getPost`);
+  blogs = res.data;
 
-//   return {
-//     props: {
-//       blogs,
-//     },
-//     revalidate: 60,
-//   };
-// }
+  return {
+    props: {
+      blogs,
+    },
+    revalidate: 60,
+  };
+}
 
 
 
@@ -63,20 +63,20 @@ export default function Form() {
     }
   }, [session, status]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get('/api/getPost'); // Replace with your actual API endpoint
-        setBlogs(res.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await axios.get('/api/getPost'); // Replace with your actual API endpoint
+  //       setBlogs(res.data);
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
 
 
