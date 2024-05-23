@@ -55,7 +55,7 @@ export default function Form({blogs}) {
 
   
   useEffect(() => {
-    if (status === "loading") return;
+    if (status === "success") return;
     if (!session) {
       signIn();
     } else {
