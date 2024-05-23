@@ -44,12 +44,12 @@ export async function getStaticProps() {
 
 
 
-export default function Form() {
+export default function Form({blogs}) {
  
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedBlog, setSelectedBlog] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [blogs, setBlogs] = useState([]);
+  // const [blogs, setBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { data: session, status } = useSession();
 
