@@ -49,34 +49,24 @@ export default function Form({blogs}) {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedBlog, setSelectedBlog] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  // const [blogs, setBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { data: session, status } = useSession();
 
-  
   useEffect(() => {
-    if (status === "success") return;
-    if (!session) {
+    if (status === "loading") {
+      return;
+    }
+
+    if (status !== "authenticated") {
       signIn();
     } else {
       setIsLoading(false);
     }
   }, [session, status]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await axios.get('/api/getPost'); // Replace with your actual API endpoint
-  //       setBlogs(res.data);
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
 
 
