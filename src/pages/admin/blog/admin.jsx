@@ -12,7 +12,8 @@ import axios from 'axios'
 import Image from 'next/image'
 import EditForm from '../../../components/EditForm.js';
 import { useDeleteForm } from '../../../hooks/useDeleteBlogs.jsx';
-
+import { Router } from 'lucide-react';
+import { useRouter } from 'next/router'
 
 
 
@@ -52,6 +53,7 @@ export default function Form({blogs}) {
   // const [blogs, setBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { data: session, status } = useSession();
+  const router = useRouter()
 
   
   useEffect(() => {
@@ -59,6 +61,7 @@ export default function Form({blogs}) {
     if (!session) {
       signIn();
     } else {
+      router.push('/admin/blog/admin')
       setIsLoading(false);
     }
   }, [session, status]);
