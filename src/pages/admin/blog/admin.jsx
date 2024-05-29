@@ -7,13 +7,29 @@ import { storage } from '../../../helper/firebase.js';
 import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import TipTap from '../../../components/TipTap.js';
 import { useRef } from 'react';
-import { useSession, signIn } from 'next-auth/react';
 import axios from 'axios'
 import Image from 'next/image'
 import EditForm from '../../../components/EditForm.js';
 import { useDeleteForm } from '../../../hooks/useDeleteBlogs.jsx';
-import { Router } from 'lucide-react';
-import { useRouter } from 'next/router'
+import { withPageAuthRequired } from '@auth0/nextjs-auth0';
+
+
+
+
+
+
+
+// export async function getStaticProps() {
+//   const res = await axios.get('http://localhost:3000/api/getPost');
+//   const blogs = res.data;
+
+//   return {
+//     props: {
+//       blogs,
+//     },
+//     revalidate: 60, 
+//   };
+// }
 
 
 
@@ -26,60 +42,15 @@ const schema = z.object({
 });
 
 
-const dev = process.env.NODE_ENV !== "production";
-const server = dev ? "http://localhost:3000" : "https://lucycoding.com/";
+function Admin({blogs}) {
 
-export async function getStaticProps() {
-  let blogs = [];
-
-  const res = await axios.get(`${server}/api/getPost`);
-  blogs = res.data;
-
-  return {
-    props: {
-      blogs,
-    },
-    revalidate: 60,
-  };
-}
-
-
-
-export default function Form({blogs}) {
  
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedBlog, setSelectedBlog] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   // const [blogs, setBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { data: session, status } = useSession();
-  const router = useRouter()
 
-  
-  useEffect(() => {
-    if (status === "loading") return;
-    if (!session) {
-      signIn();
-    } else {
-      router.push('/admin/blog/admin')
-      setIsLoading(false);
-    }
-  }, [session, status]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await axios.get('/api/getPost'); // Replace with your actual API endpoint
-  //       setBlogs(res.data);
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
 
 
 
@@ -342,4 +313,19 @@ export default function Form({blogs}) {
     </div>
   );
 }
+export const getServerSideProps = withPageAuthRequired({
+  async getServerSideProps(ctx) {
+    const res = await axios.get('https://lucycoding.com/api/getPost');
+    const blogs = res.data;
+
+    return {
+      props: {
+        blogs,
+      },
+    };
+  },
+});
+
+export default Admin;
+
 

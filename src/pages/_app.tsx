@@ -8,7 +8,7 @@ import { ToastContainer } from "react-toastify";
 import NavBar from "../components/NavBar";
 import Banner from "../components/Banner";
 import { Indie_Flower } from "next/font/google";
-import { SessionProvider } from "next-auth/react";
+import { UserProvider } from '@auth0/nextjs-auth0/client';
 
 const indie = Indie_Flower({
   weight: "400",
@@ -60,9 +60,10 @@ export default function App({
         <NavBar setActive={() => {}} />
         <Banner />
         <ToastContainer />
-        <SessionProvider session={session}>
+
+        <UserProvider>
           <Component {...pageProps} />
-        </SessionProvider>
+        </UserProvider>
       </main>
     </>
   );
