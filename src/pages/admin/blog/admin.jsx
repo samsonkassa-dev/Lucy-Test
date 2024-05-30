@@ -315,7 +315,7 @@ function Admin({blogs}) {
 }
 export const getServerSideProps = withPageAuthRequired({
   async getServerSideProps(ctx) {
-    const res = await axios.get('https://lucycoding.com/api/getPost');
+    const res = await axios.get('http://localhost:3000/api/getPost');
     const blogs = res.data;
 
     return {
