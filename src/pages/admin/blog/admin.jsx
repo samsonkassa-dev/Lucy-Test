@@ -12,7 +12,7 @@ import Image from 'next/image'
 import EditForm from '../../../components/EditForm.js';
 import { useDeleteForm } from '../../../hooks/useDeleteBlogs.jsx';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
-import LoadingSpinner from '../../../components/LoadingSpinner';
+import LoadingSpinner from '../../../components/Spinner';
 
 
 
