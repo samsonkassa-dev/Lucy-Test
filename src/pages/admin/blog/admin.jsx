@@ -79,43 +79,47 @@ function Admin({blogs}) {
   
 
   const onSubmit = async (data) => {
+    console.log('Form submission started');
     setIsLoading(true);
-    try {
-      let formData = {
-        ...data,
-        date: new Date().toISOString(),
-        title: data.title,
-        content: data.description,
-        author: data.author,
-        priority: data.priority,
-      };
-
-      if (file) {
-        const formData = new FormData();
-        formData.append('file', file);
-
-        const uploadResponse = await fetch('/api/upload', {
-          method: 'POST',
-          body: formData,
-        });
-
-        const uploadResult = await uploadResponse.json();
-        formData.image = `/uploads/${uploadResult.filePath.split('/').pop()}`;
-
-        await postForm(JSON.stringify(formData));
-        reset();
-        if (editorRef.current) {
-          editorRef.current.commands.setContent(""); // clear the TipTap editor content
-        }
-      } else {
-        alert("Please select an image before submitting the form.");
-        return;
+    const start = Date.now();
+    
+    let formData = {
+      ...data,
+      date: new Date().toISOString(),
+      title: data.title,
+      content: data.description,
+      author: data.author,
+      priority: data.priority,
+    };
+  
+    if (file) {
+      console.log('Uploading file...');
+      const uploadStart = Date.now();
+      const storageRef = ref(storage, "images/" + file.name);
+      await uploadBytes(storageRef, file);
+      console.log(`File uploaded in ${Date.now() - uploadStart}ms`);
+  
+      const urlStart = Date.now();
+      const url = await getDownloadURL(storageRef);
+      console.log(`URL fetched in ${Date.now() - urlStart}ms`);
+      formData.image = url;
+  
+      const postStart = Date.now();
+      await postForm(JSON.stringify(formData));
+      console.log(`Form data posted in ${Date.now() - postStart}ms`);
+  
+      reset();
+      if (editorRef.current) {
+        editorRef.current.commands.setContent(""); // clear the TipTap editor content
       }
-    } catch (error) {
-      console.error(error);
-    } finally {
+      set
+    } else {
+      console.error("Error: Image field is empty");
+      alert("Please select an image before submitting the form.");
       setIsLoading(false);
+      return;
     }
+    // console.log(`Form submission completed in ${Date.now() - start}ms`);
   };
 
 
@@ -151,185 +155,197 @@ function Admin({blogs}) {
   return (
     <div className="h-screen relative">
       {isLoading && <LoadingSpinner />}
-      <div className="flex flex-col items-center justify-center max-w-max mx-auto mt-36 sm:flex-row sm:justify-center">
-        <h1 class="text-5xl font-indie font-semibold text-yellow text-center sm:text-6xl">
-          {isFormVisible ? "Post Blogs" : "Edit Blogs"}
-        </h1>
+      <div
+        className={`transition-opacity duration-300 ${
+          isLoading ? "opacity-50 pointer-events-none" : "opacity-100"
+        }`}
+      >
+        <div className="flex flex-col items-center justify-center max-w-max mx-auto mt-36 sm:flex-row sm:justify-center">
+          <h1 class="text-5xl font-indie font-semibold text-yellow text-center sm:text-6xl">
+            {isFormVisible ? "Post Blogs" : "Edit Blogs"}
+          </h1>
 
-        <div className="mt-5 sm:mt-0 sm:absolute sm:right-10">
-          <button
-            type="button"
-            onClick={() => {
-              setIsFormVisible(!isFormVisible);
-              setIsEditing(false);
-            }}
-            className="focus:outline-none text-white bg-purple hover:bg-purple focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2"
-          >
-            {isFormVisible ? "Edit Blog" : "Add Blog"}
-          </button>
-        </div>
-      </div>
-
-      {isFormVisible && (
-        <div className="flex mx-5 items-center  justify-center rounded py-7 transition-all duration-500">
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="w-full md:w-[70%] space-y-4 max-w-3xl  bg-white p-8 rounded shadow-lg"
-          >
-            <div>
-              <label
-                htmlFor="title"
-                className="block text-md font-semibold text-gray-700"
-              >
-                Title
-              </label>
-              <input
-                id="title"
-                {...register("title")}
-                className="flex h-10 w-full md:w-[60%] rounded-md border border-input  px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-              />
-              {errors.title && (
-                <p className="text-red-500 text-xs mt-2">
-                  {errors.title.message}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label
-                htmlFor="author"
-                className="block text-md font-semibold text-gray-700"
-              >
-                Author
-              </label>
-              <input
-                id="author"
-                {...register("author")}
-                className="flex h-10 w-full md:w-[60%] rounded-md border border-input  px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-              />
-              {errors.author && (
-                <p className="text-red-500 text-xs mt-2">
-                  {errors.author.message}
-                </p>
-              )}
-            </div>
-            <input
-              id="image"
-              type="file"
-              onChange={handleFileChange}
-              className="flex h-10 w-full md:w-[60%] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            />
-
-            <div>
-              <label
-                htmlFor="description"
-                className="block text-md font-semibold text-gray-700"
-              >
-                Description
-              </label>
-              <div id="description" {...register("description")} className="">
-                <TipTap
-                  description={" "}
-                  onChange={(html) => {
-                    setValue("description", html);
-                  }}
-                  onEditorReady={(editor) => (editorRef.current = editor)}
-                />
-              </div>
-              {errors.description && (
-                <p className="text-red-500 text-xs mt-2">
-                  {errors.description.message}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label
-                htmlFor="priority"
-                className="block text-md font-semibold text-gray-700"
-              >
-                Priority
-              </label>
-              <select
-                id="priority"
-                {...register("priority")}
-                className="flex h-10 w-full md:w-[60%] rounded-md border border-input  px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                <option>Choose a priority</option>
-                <option value="High">High</option>
-                <option value="Medium">Medium</option>
-                <option value="Low">Low</option>
-              </select>
-              {errors.priority && (
-                <p className="text-red-500 text-xs mt-2">
-                  {errors.priority.message}
-                </p>
-              )}
-            </div>
-
+          <div className="mt-5 sm:mt-0 sm:absolute sm:right-10">
             <button
-              type="submit"
-              className="select-none rounded-lg bg-amber-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-black shadow-md shadow-amber-500/20 transition-all hover:shadow-lg hover:shadow-amber-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              type="button"
+              onClick={() => {
+                setIsFormVisible(!isFormVisible);
+                setIsEditing(false);
+              }}
+              className="focus:outline-none text-white bg-purple hover:bg-purple focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2"
             >
-              Submit
+              {isFormVisible ? "Edit Blog" : "Add Blog"}
             </button>
-          </form>
+          </div>
         </div>
-      )}
 
-      {!isFormVisible && blogs && (
-        <section className="md:mx-[95px] mb-10 mx-[34px] mt-12 rounded-3xl grid lg:grid-cols-3 md:gap-10 ">
-          {blogs.map((blog) => (
-            <div
-              key={blog.id}
-              className="overflow-hidden rounded-lg shadow transition"
+        {isFormVisible && (
+          <div className="flex mx-5 items-center  justify-center rounded py-7 transition-all duration-500">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="w-full md:w-[70%] space-y-4 max-w-3xl  bg-white p-8 rounded shadow-lg"
             >
-              <div className="w-full h-56 relative">
-                <Image
-                  src={blog.image}
-                  alt="Blog One"
-                  layout="fill"
-                  objectFit="cover"
-                  className=""
+              <div>
+                <label
+                  htmlFor="title"
+                  className="block text-md font-semibold text-gray-700"
+                >
+                  Title
+                </label>
+                <input
+                  id="title"
+                  {...register("title")}
+                  className="flex h-10 w-full md:w-[60%] rounded-md border border-input  px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
                 />
+                {errors.title && (
+                  <p className="text-red-500 text-xs mt-2">
+                    {errors.title.message}
+                  </p>
+                )}
               </div>
 
-              <div className="bg-white p-4 sm:p-6">
-                <time
-                  datetime={new Date(blog.date).toISOString()}
-                  className="block text-xs text-gray-500"
+              <div>
+                <label
+                  htmlFor="author"
+                  className="block text-md font-semibold text-gray-700"
                 >
-                  {new Date(blog.date).toLocaleDateString()}
-                </time>
+                  Author
+                </label>
+                <input
+                  id="author"
+                  {...register("author")}
+                  className="flex h-10 w-full md:w-[60%] rounded-md border border-input  px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                />
+                {errors.author && (
+                  <p className="text-red-500 text-xs mt-2">
+                    {errors.author.message}
+                  </p>
+                )}
+              </div>
+              <label
+                htmlFor="Image"
+                className="block text-md font-semibold text-gray-700"
+              >
+                Image
+              </label>
+              <input
+                id="image"
+                type="file"
+                onChange={handleFileChange}
+                className="flex h-10 w-full md:w-[60%] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              />
 
-                <h3 className="mt-0.5 text-lg text-gray-900">{blog.title}</h3>
-                <div className="flex mt-5 gap-10">
-                  <button
-                    className="focus:outline-none text-white bg-yellow hover:bg-yellow focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2"
-                    onClick={() => handleEdit(blog.id)}
+              <div>
+                <label
+                  htmlFor="description"
+                  className="block text-md font-semibold text-gray-700"
+                >
+                  Description
+                </label>
+                <div id="description" {...register("description")} className="">
+                  <TipTap
+                    description={" "}
+                    onChange={(html) => {
+                      setValue("description", html);
+                    }}
+                    onEditorReady={(editor) => (editorRef.current = editor)}
+                  />
+                </div>
+                {errors.description && (
+                  <p className="text-red-500 text-xs mt-2">
+                    {errors.description.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label
+                  htmlFor="priority"
+                  className="block text-md font-semibold text-gray-700"
+                >
+                  Priority
+                </label>
+                <select
+                  id="priority"
+                  {...register("priority")}
+                  className="flex h-10 w-full md:w-[60%] rounded-md border border-input  px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <option>Choose a priority</option>
+                  <option value="High">High</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Low">Low</option>
+                </select>
+                {errors.priority && (
+                  <p className="text-red-500 text-xs mt-2">
+                    {errors.priority.message}
+                  </p>
+                )}
+              </div>
+
+              <button
+                type="submit"
+                className="select-none rounded-lg bg-amber-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-black shadow-md shadow-amber-500/20 transition-all hover:shadow-lg hover:shadow-amber-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              >
+                Submit
+              </button>
+            </form>
+          </div>
+        )}
+
+        {!isFormVisible && blogs && (
+          <section className="md:mx-[95px] mb-10 mx-[34px] mt-12 rounded-3xl grid lg:grid-cols-3 md:gap-10 ">
+            {blogs.map((blog) => (
+              <div
+                key={blog.id}
+                className="overflow-hidden rounded-lg shadow transition"
+              >
+                <div className="w-full h-56 relative">
+                  <Image
+                    src={blog.image}
+                    alt="Blog One"
+                    layout="fill"
+                    objectFit="cover"
+                    className=""
+                  />
+                </div>
+
+                <div className="bg-white p-4 sm:p-6">
+                  <time
+                    datetime={new Date(blog.date).toISOString()}
+                    className="block text-xs text-gray-500"
                   >
-                    Edit
-                  </button>
-                  <button
-                    className="focus:outline-none text-white bg-purple hover:bg-purple focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2"
-                    onClick={() => handleDelete(blog.id)}
-                  >
-                    Delete
-                  </button>
+                    {new Date(blog.date).toLocaleDateString()}
+                  </time>
+
+                  <h3 className="mt-0.5 text-lg text-gray-900">{blog.title}</h3>
+                  <div className="flex mt-5 gap-10">
+                    <button
+                      className="focus:outline-none text-white bg-yellow hover:bg-yellow focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2"
+                      onClick={() => handleEdit(blog.id)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="focus:outline-none text-white bg-purple hover:bg-purple focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2"
+                      onClick={() => handleDelete(blog.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </section>
-      )}
+            ))}
+          </section>
+        )}
 
-      {isEditing && (
-        <EditForm
-          blog={selectedBlog}
-          setIsEditing={setIsEditing}
-          onEditSuccess={handleEditSuccess}
-        />
-      )}
+        {isEditing && (
+          <EditForm
+            blog={selectedBlog}
+            setIsEditing={setIsEditing}
+            onEditSuccess={handleEditSuccess}
+          />
+        )}
+      </div>
     </div>
   );
 }
