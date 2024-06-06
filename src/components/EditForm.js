@@ -84,7 +84,7 @@ export default function EditForm({ blog, onEditSuccess, setIsEditing }) {
     // console.log(data)
     let formData = {
       ...data,
-      date: new Date().toISOString(),
+      // date: new Date().toISOString(),
       title: data.title,
       content: data.description,
       author: data.author,
