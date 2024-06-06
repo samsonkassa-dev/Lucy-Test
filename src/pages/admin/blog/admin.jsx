@@ -12,6 +12,8 @@ import Image from 'next/image'
 import EditForm from '../../../components/EditForm.js';
 import { useDeleteForm } from '../../../hooks/useDeleteBlogs.jsx';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
+import LoadingSpinner from '../../../components/LoadingSpinner';
+
 
 
 
@@ -49,7 +51,8 @@ function Admin({blogs}) {
   const [selectedBlog, setSelectedBlog] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   // const [blogs, setBlogs] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
 
 
 
@@ -76,46 +79,45 @@ function Admin({blogs}) {
   
 
   const onSubmit = async (data) => {
-    console.log('Form submission started');
-    const start = Date.now();
-  
-    let formData = {
-      ...data,
-      date: new Date().toISOString(),
-      title: data.title,
-      content: data.description,
-      author: data.author,
-      priority: data.priority,
-    };
-  
-    if (file) {
-      console.log('Uploading file...');
-      const uploadStart = Date.now();
-      const storageRef = ref(storage, "images/" + file.name);
-      await uploadBytes(storageRef, file);
-      console.log(`File uploaded in ${Date.now() - uploadStart}ms`);
-  
-      const urlStart = Date.now();
-      const url = await getDownloadURL(storageRef);
-      console.log(`URL fetched in ${Date.now() - urlStart}ms`);
-      formData.image = url;
-  
-      const postStart = Date.now();
-      await postForm(JSON.stringify(formData));
-      console.log(`Form data posted in ${Date.now() - postStart}ms`);
-  
-      reset();
-      if (editorRef.current) {
-        editorRef.current.commands.setContent(""); // clear the TipTap editor content
+    setIsLoading(true);
+    try {
+      let formData = {
+        ...data,
+        date: new Date().toISOString(),
+        title: data.title,
+        content: data.description,
+        author: data.author,
+        priority: data.priority,
+      };
+
+      if (file) {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const uploadResponse = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        });
+
+        const uploadResult = await uploadResponse.json();
+        formData.image = `/uploads/${uploadResult.filePath.split('/').pop()}`;
+
+        await postForm(JSON.stringify(formData));
+        reset();
+        if (editorRef.current) {
+          editorRef.current.commands.setContent(""); // clear the TipTap editor content
+        }
+      } else {
+        alert("Please select an image before submitting the form.");
+        return;
       }
-    } else {
-      console.error("Error: Image field is empty");
-      alert("Please select an image before submitting the form.");
-      return;
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
     }
-    console.log(`Form submission completed in ${Date.now() - start}ms`);
   };
-  
+
 
   const handleEdit = (blogId) => {
     // Find the blog with the given ID
@@ -133,15 +135,22 @@ function Admin({blogs}) {
 
 
 
-  const handleDelete  = async (id) => {
-    await deleteForm(id);
+  const handleDelete = async (id) => {
+    setIsLoading(true);
+    try {
+      await deleteForm(id);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
 
 
-
   return (
-    <div className="h-screen">
+    <div className="h-screen relative">
+      {isLoading && <LoadingSpinner />}
       <div className="flex flex-col items-center justify-center max-w-max mx-auto mt-36 sm:flex-row sm:justify-center">
         <h1 class="text-5xl font-indie font-semibold text-yellow text-center sm:text-6xl">
           {isFormVisible ? "Post Blogs" : "Edit Blogs"}
@@ -315,7 +324,11 @@ function Admin({blogs}) {
       )}
 
       {isEditing && (
-        <EditForm blog={selectedBlog} setIsEditing={setIsEditing} onEditSuccess={handleEditSuccess} />
+        <EditForm
+          blog={selectedBlog}
+          setIsEditing={setIsEditing}
+          onEditSuccess={handleEditSuccess}
+        />
       )}
     </div>
   );
