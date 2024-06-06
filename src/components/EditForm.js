@@ -79,39 +79,55 @@ export default function EditForm({ blog, onEditSuccess, setIsEditing }) {
   const { updateForm } = useUpdateForm();
 
   const onSubmit = async (data) => {
-    setSubmitting(true);
-    try {
-      let formData = {
-        ...data,
-        // date: new Date().toISOString(),
-        title: data.title,
-        content: data.description,
-        author: data.author,
-        priority: data.priority,
-      };
+    // console.log(data)
+    setSubmitting(true)
+    let formData = {
+      ...data,
+      date: new Date().toISOString(),
+      title: data.title,
+      content: data.description,
+      author: data.author,
+      priority: data.priority,
+    };
 
-      if (file) {
-        const storageRef = ref(storage, "images/" + file.name);
-        await uploadBytes(storageRef, file);
-        const url = await getDownloadURL(storageRef);
-        formData.image = url;
-        await updateForm(JSON.stringify(formData));
-        reset();
+    console.log(formData)
+
+    if (file) {
+      const storageRef = ref(storage, "images/" + file.name);
+      await uploadBytes(storageRef, file).then((snapshot) => {
+        console.log("Uploaded a blob or file!");
+      });
+
+      // Await the URL of the uploaded image
+      const url = await getDownloadURL(storageRef); // Await the URL of the uploaded image
+      formData.image = url;
+      // console.log(formData);
+      // console.log(blog.id)
+      updateForm(blog.id, formData).then(() => {
+        reset({
+          title: "",
+          description: "",
+          author: "",
+          priority: "",
+          image: "",
+        });
         if (editorRef.current) {
           editorRef.current.commands.setContent(""); // clear the TipTap editor content
         }
-      } else {
-        alert("Please select an image before submitting the form.");
-        return;
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setSubmitting(false);
+      });
+      onEditSuccess();
+      setIsEditing(false);
+      setSubmitting(false)
+    } else {
+      console.error("Error: Image field is empty");
+      alert("Please select an image before submitting the form.");
+      return;
     }
   };
+
+
   return (
-    <div className="h-screen relative">
+    <div className=" relative">
       {submitting && <LoadingSpinner />}
       <div
         className={`transition-opacity duration-300 ${
