@@ -9,7 +9,7 @@ import { useRef } from 'react';
 import axios from 'axios'
 import Image from 'next/image'
 import { useUpdateForm } from '../hooks/useUpdateBlogs.jsx'
-import LoadingSpinner from '../../../components/Spinner';
+import LoadingSpinner from '../components/Spinner';
 
 
 
