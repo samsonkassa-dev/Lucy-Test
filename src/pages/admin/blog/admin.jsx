@@ -79,48 +79,38 @@ function Admin({blogs}) {
   
 
   const onSubmit = async (data) => {
-    console.log('Form submission started');
     setIsLoading(true);
-    const start = Date.now();
-    
-    let formData = {
-      ...data,
-      date: new Date().toISOString(),
-      title: data.title,
-      content: data.description,
-      author: data.author,
-      priority: data.priority,
-    };
+    try {
+      let formData = {
+        ...data,
+        date: new Date().toISOString(),
+        title: data.title,
+        content: data.description,
+        author: data.author,
+        priority: data.priority,
+      };
   
-    if (file) {
-      console.log('Uploading file...');
-      const uploadStart = Date.now();
-      const storageRef = ref(storage, "images/" + file.name);
-      await uploadBytes(storageRef, file);
-      console.log(`File uploaded in ${Date.now() - uploadStart}ms`);
-  
-      const urlStart = Date.now();
-      const url = await getDownloadURL(storageRef);
-      console.log(`URL fetched in ${Date.now() - urlStart}ms`);
-      formData.image = url;
-  
-      const postStart = Date.now();
-      await postForm(JSON.stringify(formData));
-      console.log(`Form data posted in ${Date.now() - postStart}ms`);
-  
-      reset();
-      if (editorRef.current) {
-        editorRef.current.commands.setContent(""); // clear the TipTap editor content
+      if (file) {
+        const storageRef = ref(storage, "images/" + file.name);
+        await uploadBytes(storageRef, file);
+        const url = await getDownloadURL(storageRef);
+        formData.image = url;
+        await postForm(JSON.stringify(formData));
+        reset();
+        if (editorRef.current) {
+          editorRef.current.commands.setContent(""); // clear the TipTap editor content
+        }
+      } else {
+        alert("Please select an image before submitting the form.");
+        return;
       }
-      set
-    } else {
-      console.error("Error: Image field is empty");
-      alert("Please select an image before submitting the form.");
+    } catch (error) {
+      console.error(error);
+    } finally {
       setIsLoading(false);
-      return;
     }
-    // console.log(`Form submission completed in ${Date.now() - start}ms`);
   };
+  
 
 
   const handleEdit = (blogId) => {
