@@ -13,6 +13,8 @@ import EditForm from '../../../components/EditForm.js';
 import { useDeleteForm } from '../../../hooks/useDeleteBlogs.jsx';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import LoadingSpinner from '../../../components/Spinner';
+import { useRouter } from 'next/router';
+
 
 
 
@@ -45,19 +47,14 @@ const schema = z.object({
 
 
 function Admin({blogs}) {
-
- 
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [selectedBlog, setSelectedBlog] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   // const [blogs, setBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-
-
-
-
   const [file, setFile] = useState();
+  const editFormRef = useRef(null);
   const editorRef = useRef();
   const {
     register,
@@ -76,7 +73,6 @@ function Admin({blogs}) {
 
   const { postForm } = usePostForm();
   const { deleteForm } = useDeleteForm();
-  
 
   const onSubmit = async (data) => {
     setIsLoading(true);
@@ -89,7 +85,7 @@ function Admin({blogs}) {
         author: data.author,
         priority: data.priority,
       };
-  
+
       if (file) {
         const storageRef = ref(storage, "images/" + file.name);
         await uploadBytes(storageRef, file);
@@ -110,14 +106,16 @@ function Admin({blogs}) {
       setIsLoading(false);
     }
   };
-  
-
 
   const handleEdit = (blogId) => {
     // Find the blog with the given ID
     const blog = blogs.find((blog) => blog.id === blogId);
     setSelectedBlog(blog);
     setIsEditing(true);
+
+    setTimeout(() => {
+      editFormRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
   };
 
   const handleEditSuccess = () => {
@@ -127,20 +125,17 @@ function Admin({blogs}) {
     // Fetch all blogs again to get the updated data
   };
 
-
-
   const handleDelete = async (id) => {
     setIsLoading(true);
     try {
       await deleteForm(id);
+      router.replace(router.asPath);
     } catch (error) {
       console.error(error);
     } finally {
       setIsLoading(false);
     }
   };
-
-
 
   return (
     <div className="h-screen relative">
@@ -329,11 +324,13 @@ function Admin({blogs}) {
         )}
 
         {isEditing && (
-          <EditForm
-            blog={selectedBlog}
-            setIsEditing={setIsEditing}
-            onEditSuccess={handleEditSuccess}
-          />
+          <div ref={editFormRef}>
+            <EditForm
+              blog={selectedBlog}
+              setIsEditing={setIsEditing}
+              onEditSuccess={handleEditSuccess}
+            />
+          </div>
         )}
       </div>
     </div>
