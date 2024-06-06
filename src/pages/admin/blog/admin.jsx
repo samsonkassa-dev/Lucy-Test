@@ -76,8 +76,9 @@ function Admin({blogs}) {
   
 
   const onSubmit = async (data) => {
-    // console.log(data);
-
+    console.log('Form submission started');
+    const start = Date.now();
+  
     let formData = {
       ...data,
       date: new Date().toISOString(),
@@ -86,29 +87,35 @@ function Admin({blogs}) {
       author: data.author,
       priority: data.priority,
     };
-
+  
     if (file) {
+      console.log('Uploading file...');
+      const uploadStart = Date.now();
       const storageRef = ref(storage, "images/" + file.name);
-      await uploadBytes(storageRef, file).then((snapshot) => {
-        console.log("Uploaded a blob or file!");
-      });
-
-      // Await the URL of the uploaded image
+      await uploadBytes(storageRef, file);
+      console.log(`File uploaded in ${Date.now() - uploadStart}ms`);
+  
+      const urlStart = Date.now();
       const url = await getDownloadURL(storageRef);
+      console.log(`URL fetched in ${Date.now() - urlStart}ms`);
       formData.image = url;
-      console.log(formData);
-      postForm(JSON.stringify(formData)).then(() => {
-        reset();
-        if (editorRef.current) {
-          editorRef.current.commands.setContent(""); // clear the TipTap editor content
-        }
-      });
+  
+      const postStart = Date.now();
+      await postForm(JSON.stringify(formData));
+      console.log(`Form data posted in ${Date.now() - postStart}ms`);
+  
+      reset();
+      if (editorRef.current) {
+        editorRef.current.commands.setContent(""); // clear the TipTap editor content
+      }
     } else {
       console.error("Error: Image field is empty");
       alert("Please select an image before submitting the form.");
       return;
     }
+    console.log(`Form submission completed in ${Date.now() - start}ms`);
   };
+  
 
   const handleEdit = (blogId) => {
     // Find the blog with the given ID
@@ -313,6 +320,8 @@ function Admin({blogs}) {
     </div>
   );
 }
+
+
 export const getServerSideProps = withPageAuthRequired({
   async getServerSideProps(ctx) {
     const res = await axios.get('https://lucy-test.vercel.app/api/getPost');
