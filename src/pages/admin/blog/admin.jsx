@@ -147,7 +147,7 @@ function Admin({blogs}) {
       {isLoading && <LoadingSpinner />}
       <div
         className={`transition-opacity duration-300 ${
-          isLoading ? "opacity-80 pointer-events-none" : "opacity-100"
+          isLoading ? "opacity-10 pointer-events-none" : "opacity-100"
         }`}
       >
         <div className="flex flex-col items-center justify-center max-w-max mx-auto mt-36 sm:flex-row sm:justify-center">
