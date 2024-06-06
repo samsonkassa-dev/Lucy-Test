@@ -52,7 +52,7 @@ function Admin({blogs}) {
   const [isEditing, setIsEditing] = useState(false);
   // const [blogs, setBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
+  const router = useRouter();
   const [file, setFile] = useState();
   const editFormRef = useRef(null);
   const editorRef = useRef();

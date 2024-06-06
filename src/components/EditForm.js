@@ -117,6 +117,7 @@ export default function EditForm({ blog, onEditSuccess, setIsEditing }) {
         }
       });
       setIsEditing(false);
+      onEditSuccess(); 
     } else {
       console.error("Error: Image field is empty");
       alert("Please select an image before submitting the form.");
