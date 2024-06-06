@@ -122,7 +122,7 @@ function Admin({blogs}) {
     // Update the UI after a successful edit operation
     setIsEditing(false);
     setSelectedBlog(null);
-    // Fetch all blogs again to get the updated data
+    router.replace(router.asPath);
   };
 
   const handleDelete = async (id) => {
