@@ -1,18 +1,18 @@
 import { useState, useEffect, Fragment } from "react";
 import { ErrorMessage } from "@hookform/error-message";
 import { useForm, useFieldArray } from "react-hook-form";
-import { toast } from "react-toastify";
+import { toast, Toaster } from "react-hot-toast";
 import { useLocalStorage } from "@mantine/hooks";
 import countries from "countries-list";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-import { useGetUserCountryCallingCode } from '../../hooks/useGetUserCountryCallingCode'
-import { usePostParentInformation } from '../../hooks/usePostParentInformation'
-import { useStudentStoreSelector } from '../../feature/studentRegistration/store'
+import { useGetUserCountryCallingCode } from "../../hooks/useGetUserCountryCallingCode";
+import { usePostParentInformation } from "../../hooks/usePostParentInformation";
+import { useStudentStoreSelector } from "../../feature/studentRegistration/store";
 
 export default function ParentPage(props) {
   const [loading, setLoading] = useState(false);
-  const { setUserId } = useStudentStoreSelector()
+  const { setUserId } = useStudentStoreSelector();
   const countryCodes = Object.keys(countries.countries);
   const countryNames = countryCodes
     .map((code) => {
@@ -24,8 +24,10 @@ export default function ParentPage(props) {
     })
     .sort((c) => c.country);
 
-  const { code, country } = useGetUserCountryCallingCode()
-  const [selectedAreaCode, setSelectedAreaCode] = useState(countryNames.filter(c => c.code === "1")[0]);
+  const { code, country } = useGetUserCountryCallingCode();
+  const [selectedAreaCode, setSelectedAreaCode] = useState(
+    countryNames.filter((c) => c.code === "1")[0]
+  );
 
   const [userInfo, setUserInfo, removeItem] = useLocalStorage({
     key: "parentInfo",
@@ -37,6 +39,7 @@ export default function ParentPage(props) {
       agrees: false,
     },
   });
+
   const {
     control,
     handleSubmit,
@@ -50,45 +53,55 @@ export default function ParentPage(props) {
     },
   });
 
-
   useEffect(() => {
-    handleAreaCodeChange({ code, country })
-  }, [country])
-
+    if (country && code) {
+      handleAreaCodeChange({ code, country });
+    }
+  }, [country, code]);
 
   useEffect(() => {
     localStorage.removeItem("userInfo");
     localStorage.removeItem("student-storage");
-
-  }, [])
+  }, []);
 
   useEffect(() => {
     reset(userInfo);
   }, [userInfo]);
 
   const handleAreaCodeChange = (userCountry) => {
-    if (userCountry?.code === undefined) return setSelectedAreaCode(countryNames.filter(c => c.code === "1")[0])
-    if (userCountry.hasOwnProperty("code") && !userCountry.hasOwnProperty("emoji")) {
-      const selected = countryNames.find(c => c.code === userCountry.code && c.country === userCountry.country)
-      return setSelectedAreaCode(selected)
+    if (!userCountry?.code) {
+      setSelectedAreaCode(countryNames.filter((c) => c.code === "1")[0]);
+    } else if (userCountry.hasOwnProperty("code") && !userCountry.hasOwnProperty("emoji")) {
+      const selected = countryNames.find(
+        (c) => c.code === userCountry.code && c.country === userCountry.country
+      );
+      if (selected) {
+        setSelectedAreaCode(selected);
+      } else {
+        setSelectedAreaCode(countryNames.filter((c) => c.code === "1")[0]);
+      }
+    } else {
+      setSelectedAreaCode(userCountry);
     }
-    return setSelectedAreaCode(userCountry)
-  }
+  };
+
   const handleNext = async (data) => {
     setUserInfo(data);
-    const dataWithAreaCode = { ...data, PhoneNumber: `${selectedAreaCode.code},${data.PhoneNumber}` }
-    toast.promise(
-      usePostParentInformation(dataWithAreaCode), {
-      pending: 'Loading...',
-      success: "Parent information saved successfully",
-      error: "Error saving parent information",
-    }
-    ).then((result) => {
-      const parentId = result?.data
-      setUserId(parentId);
-      props.next();
-    })
-  }
+    const dataWithAreaCode = {
+      ...data,
+      PhoneNumber: `${selectedAreaCode.code},${data.PhoneNumber}`,
+    };
+    toast.promise(usePostParentInformation(dataWithAreaCode), {
+        loading: "Loading...",
+        success: "Parent information saved successfully",
+        error: "Error saving parent information",
+      })
+      .then((result) => {
+        const parentId = result?.data;
+        setUserId(parentId);
+        props.next();
+      });
+  };
 
   return (
     <div className="flex flex-row items-center justify-center">
@@ -97,16 +110,21 @@ export default function ParentPage(props) {
         onSubmit={handleSubmit(handleNext)}
       >
         <div className="text-center mt-20 lg:mt-0">
-          <h2 className="text-lg md:text-2xl font-bold my-5">{props.selectedLocale.registerPage.parentComponent.title}</h2>
+          <h2 className="text-lg md:text-2xl font-bold my-5">
+            {props.selectedLocale.registerPage.parentComponent.title}
+          </h2>
           <div className="flex px-1 flex-col space-y-7 md:space-y-0 lg:gap-5  mt-5 mb-5">
             <div className="flex lg:flex-row space-y-7 md:space-y-0 flex-col">
               <div className="flex flex-col items-start mr-2 w-full">
                 <label htmlFor="first-name" className="font-bold">
-                  {props.selectedLocale.registerPage.parentComponent.name}                </label>
+                  {props.selectedLocale.registerPage.parentComponent.name}{" "}
+                </label>
                 <input
                   {...register("FirstName", { required: true })}
                   type="text"
-                  placeholder={props.selectedLocale.registerPage.parentComponent.name}
+                  placeholder={
+                    props.selectedLocale.registerPage.parentComponent.name
+                  }
                   id="first-name"
                   className=" bg-white border w-full border-gray-300 border-black/10 shadow-xs   border-1 py-2 px-4 rounded-md"
                 />
@@ -114,11 +132,14 @@ export default function ParentPage(props) {
               </div>
               <div className="flex flex-col w-full items-start">
                 <label htmlFor="last-name" className="font-bold">
-                  {props.selectedLocale.registerPage.parentComponent.lastName}                </label>
+                  {props.selectedLocale.registerPage.parentComponent.lastName}{" "}
+                </label>
                 <input
                   type="text"
                   {...register("LastName", { required: true })}
-                  placeholder={props.selectedLocale.registerPage.parentComponent.lastName}
+                  placeholder={
+                    props.selectedLocale.registerPage.parentComponent.lastName
+                  }
                   id="last-name"
                   className=" bg-white border w-full border-gray-300 border-black/10 shadow-xs  border-1 py-2 px-4 rounded-md"
                 />
@@ -126,12 +147,17 @@ export default function ParentPage(props) {
               </div>
             </div>
             <div className="flex flex-col w-full pb-1 items-start ">
-              <label className="font-bold ">{props.selectedLocale.registerPage.parentComponent.phone}</label>
+              <label className="font-bold ">
+                {props.selectedLocale.registerPage.parentComponent.phone}
+              </label>
               <div className="flex w-full lg:w-auto flex-col">
                 <div className="">
                   <div className="flex justify-start">
                     <div>
-                      <Listbox value={selectedAreaCode} onChange={handleAreaCodeChange}>
+                      <Listbox
+                        value={selectedAreaCode}
+                        onChange={handleAreaCodeChange}
+                      >
                         <div className="relative mr-1 ">
                           <Listbox.Button className="relative w-full cursor-default border rounded-md border-black/10  bg-white py-3 pl-3 pr-10 text-left  focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
                             <span className="block truncate">
@@ -157,9 +183,10 @@ export default function ParentPage(props) {
                                 <Listbox.Option
                                   key={countryIdx}
                                   className={({ active }) =>
-                                    `relative cursor-default select-none py-2 pl-2 pr-4 ${active
-                                      ? "bg-amber-100 text-amber-900"
-                                      : "text-gray-900"
+                                    `relative cursor-default select-none py-2 pl-2 pr-4 ${
+                                      active
+                                        ? "bg-amber-100 text-amber-900"
+                                        : "text-gray-900"
                                     }`
                                   }
                                   value={country}
@@ -167,26 +194,29 @@ export default function ParentPage(props) {
                                   {({ selected }) => (
                                     <div className="flex">
                                       <span
-                                        className={`block truncate w-1/12 mr-[2px] ${selected
-                                          ? "font-medium"
-                                          : "font-normal"
-                                          }`}
+                                        className={`block truncate w-1/12 mr-[2px] ${
+                                          selected
+                                            ? "font-medium"
+                                            : "font-normal"
+                                        }`}
                                       >
                                         {country.emoji}
                                       </span>
                                       <span
-                                        className={`block truncate w-1/5 ${selected
-                                          ? "font-medium"
-                                          : "font-normal"
-                                          }`}
+                                        className={`block truncate w-1/5 ${
+                                          selected
+                                            ? "font-medium"
+                                            : "font-normal"
+                                        }`}
                                       >
                                         {" +" + country.code}
                                       </span>
                                       <span
-                                        className={`block truncate w-1/2 ${selected
-                                          ? "font-medium"
-                                          : "font-normal"
-                                          }`}
+                                        className={`block truncate w-1/2 ${
+                                          selected
+                                            ? "font-medium"
+                                            : "font-normal"
+                                        }`}
                                       >
                                         {country.country}
                                       </span>
@@ -240,7 +270,9 @@ export default function ParentPage(props) {
             </div>
             <div className="flex flex-col gap-5">
               <div className="flex flex-col pb-2 items-start ">
-                <label className="font-bold ">{props.selectedLocale.registerPage.parentComponent.email}</label>
+                <label className="font-bold ">
+                  {props.selectedLocale.registerPage.parentComponent.email}
+                </label>
                 <div className="flex flex-col w-full lg:w-full">
                   <input
                     type="email"
@@ -283,7 +315,6 @@ export default function ParentPage(props) {
                   >
                     {props.selectedLocale.registerPage.parentComponent.terms}
                   </a>
-
                 </span>
                 &nbsp;
                 <span className="text-black/50 hover:text-black">
@@ -311,6 +342,15 @@ export default function ParentPage(props) {
         <button
           type="submit"
           // onClick={props.next}
+          onClick={() => {
+            if (typeof gtag === "function") {
+              gtag("event", "click", {
+                event_category: "Button",
+                event_label: "Next Button",
+                value: "1",
+              });
+            }
+          }}
           className="py-2 w-245 h-11 my-10 text-center font-bold bg-yellow rounded-md focus:outline-none"
           style={{
             backgroundColor: "#EFC35A",
@@ -323,6 +363,7 @@ export default function ParentPage(props) {
           {props.selectedLocale.registerPage.next}
         </button>
       </form>
+      <Toaster/>
     </div>
   );
 }

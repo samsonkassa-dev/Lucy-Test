@@ -1,11 +1,11 @@
 import { Fragment, useEffect, useState } from "react";
-import { loadStripe } from "@stripe/stripe-js";
+// import { loadStripe } from "@stripe/stripe-js";
 import { DatePicker } from "@mantine/dates";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import state from "../../feature/studentRegistration/store";
-import { toast } from "react-toastify";
+import { toast, Toaster } from "react-hot-toast";
 import axios from "../../api/axios";
 import { useRouter } from "next/router";
 import { usePostFrequencyInfo } from "../../hooks/usePostFrequencyInfo";
@@ -21,8 +21,8 @@ dayjs.extend(timezone);
 dayjs.extend(timeParser);
 dayjs.tz.setDefault("America/New_York");
 
-const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
-const stripePromise = loadStripe(publishableKey);
+// const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+// const stripePromise = loadStripe(publishableKey);
 const defaultTimes = [
   "10:00 AM - 11:30 AM",
   "12:00 PM - 1:30 PM",
@@ -142,18 +142,18 @@ export default function DatePickerPage(props) {
   const handleNext = () => {
     // const cleanArray = (arr) =>
     //   Array.isArray(arr) && arr.filter((item) => item);
-    // const filteredStudents = students.filter(
+    // const filteredStudents = state.getState().studentsDateData.filter(
     //   (student) => student && student.selectedDate && student.time
     // );
 
     // if (
-    //   cleanArray(students).length !== recommendationArray.length ||
+    //   cleanArray(state.getState().studentsDateData).length !== recommendationArray.length ||
     //   filteredStudents.length !== recommendationArray.length
     // ) {
     //   return toast.error("Make sure you selected all fields");
     // }
 
-    const data = students.map((student) => {
+    const data = state.getState().studentsDateData.map((student) => {
       return {
         UserId: userId,
         StudentId: student.time.split(".")[3],
@@ -180,7 +180,7 @@ export default function DatePickerPage(props) {
         usePostFrequencyInfo(mergedData),
         // new Promise((resolve, reject) => setTimeout(() => resolve("Success"), 1000000)),
         {
-          pending: "Updating Information user",
+          loading: "Updating Information user",
           success: "Success",
           error: {
             render({ data }) {
@@ -217,14 +217,17 @@ export default function DatePickerPage(props) {
     console.log(newValues);
 
     // Update the students state
-    setStudents((prevStudents) => {
-      return prevStudents.map((student, index) => {
-        return {
-          ...student,
-          time: newValues[index],
-        };
-      });
+    const updatedStudents = newValues.map((newValue, index) => {
+      return {
+        ...students[index], // Ensure that students state is properly initialized
+        time: newValue,
+      };
     });
+
+    setStudents(updatedStudents);
+    // console.log(updatedStudents)
+
+    state.getState().actions.setStudentsDateData(updatedStudents);
   };
   const handleDateChange = (value) => {
     setStudents((prevStudents) => {
@@ -469,12 +472,19 @@ export default function DatePickerPage(props) {
         <button
           onClick={() => {
             handleNext();
+            if (typeof gtag === "function") {
+              gtag("event", "click", {
+                event_category: "Button",
+                event_label: "Next Button",
+              });
+            }
           }}
           className="bg-yellow w-245 h-48 border-solid rounded-md font-bold"
         >
           {props.selectedLocale.registerPage.checkout}
         </button>{" "}
       </div>
+      <Toaster/>
     </div>
   );
 }

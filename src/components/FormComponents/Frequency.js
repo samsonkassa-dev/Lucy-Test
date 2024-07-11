@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import state from "../../feature/studentRegistration/store";
-import { toast } from "react-toastify";
+import { toast, Toaster } from "react-hot-toast";
 
 function Frequency(props) {
   const recommendationArray = state.getState().studentRecommendation;
@@ -80,7 +80,7 @@ function Frequency(props) {
           setTimeout(() => resolve("Success"), 1000)
         ),
         {
-          pending: "Updating Information user",
+          loading: "Updating Information user",
           success: "Success",
           error: {
             render({ data }) {
@@ -108,6 +108,7 @@ function Frequency(props) {
   const renderFrequencySelectionCard = () => {
 
     return (
+      
       <div className={`h-auto mx-auto w-full`}>
         <div className=" h-auto flex flex-col mx-auto mt-5">
           <div className="self-center relative flex justify-center items-center">
@@ -195,7 +196,9 @@ function Frequency(props) {
             </label>
           </div>
         </div>
+        <Toaster/>
       </div>
+
     );
   };
 

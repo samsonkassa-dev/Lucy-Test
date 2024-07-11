@@ -1,7 +1,7 @@
 import { useState, useEffect, Fragment } from "react";
 import { ErrorMessage } from "@hookform/error-message";
 import { useForm, useFieldArray } from "react-hook-form";
-import { toast } from "react-toastify";
+import { toast, Toaster } from "react-hot-toast";
 import { usePostStudentInfo } from "../../hooks/usePostStudentInfo";
 import { usePostStudentRecommendation } from "../../hooks/usePostStudentRecommendation";
 import { useLocalStorage } from "@mantine/hooks";
@@ -37,7 +37,7 @@ export default function NamePage(props) {
           GradeLevel: "",
           CodingExperiance: "",
           Interest: "",
-          showInterestField: false, 
+          showInterestField: false,
           showInterestExperiance: false,
         },
       ],
@@ -66,17 +66,18 @@ export default function NamePage(props) {
   useEffect(() => {
     // If a new student was added
     if (fields.length > showInterest.length) {
-      setShowInterest(prevShowInterest => [
+      setShowInterest((prevShowInterest) => [
         ...prevShowInterest,
-        { showInterestField: false, showInterestExperiance: false }
+        { showInterestField: false, showInterestExperiance: false },
       ]);
     }
     // If a student was removed
     else if (fields.length < showInterest.length) {
-      setShowInterest(prevShowInterest => prevShowInterest.slice(0, fields.length));
+      setShowInterest((prevShowInterest) =>
+        prevShowInterest.slice(0, fields.length)
+      );
     }
   }, [fields]);
-  
 
   useEffect(() => {
     handleAreaCodeChange({ code, country });
@@ -129,11 +130,11 @@ export default function NamePage(props) {
       return student;
     });
     setUserInfo(data);
-  
+
     toast
       .promise(usePostStudentInfo(data), {
-        pending: "Registering user",
-        success: "Success",
+        // loading: "Registering user",
+        // success: "Success",
         error: {
           render({ data }) {
             return `${
@@ -150,13 +151,13 @@ export default function NamePage(props) {
             GradeLevel: Student.GradeLevel,
             Interest: Student.Interest,
           };
-  
+
           return studentData;
         });
-  
+
         // Print the filtered data
-        console.log('Filtered Data:', filteredData);
-  
+        console.log("Filtered Data:", filteredData);
+
         toast
           .promise(usePostStudentRecommendation(filteredData, false), {
             pending: "Loading recommendation",
@@ -172,7 +173,10 @@ export default function NamePage(props) {
           .then((res) => {
             props.next();
             // Print the recommendations
-            console.log('Recommendations:', state.getState().studentRecommendation);
+            console.log(
+              "Recommendations:",
+              state.getState().studentRecommendation
+            );
             setLoading(false);
           })
           .catch((err) => setLoading(false));
@@ -181,8 +185,6 @@ export default function NamePage(props) {
         setLoading(false);
       });
   };
-  
-
 
   return (
     <div className="flex flex-row items-center justify-center">
@@ -269,7 +271,8 @@ export default function NamePage(props) {
                                 ...item,
                                 showInterestField:
                                   selectedGrade === "Grade 5-8" ||
-                                  selectedGrade === "Grade 9-12" || selectedGrade === "Grade 2-4"
+                                  selectedGrade === "Grade 9-12" ||
+                                  selectedGrade === "Grade 2-4",
                               }
                             : item
                         )
@@ -372,7 +375,9 @@ export default function NamePage(props) {
               {showInterest[index]?.showInterestField &&
                 showInterest[index]?.showInterestExperiance && (
                   <div className="flex flex-col items-start mx-2 pb-2">
-                    <label className="font-bold">{ props.selectedLocale.registerPage.interests[0] }</label>
+                    <label className="font-bold">
+                      {props.selectedLocale.registerPage.interests[0]}
+                    </label>
                     <div className="flex flex-col w-full lg:w-auto">
                       <select
                         className="border text-[#667085] bg-white h-11 border-black/10 rounded p-2"
@@ -381,7 +386,7 @@ export default function NamePage(props) {
                         })}
                       >
                         <option className="bg-black/10" disabled selected>
-                         {props.selectedLocale.registerPage.interests[1]}
+                          {props.selectedLocale.registerPage.interests[1]}
                         </option>
                         <option className="bg-white" value="Web">
                           Web
@@ -455,6 +460,15 @@ export default function NamePage(props) {
           </button>
           <button
             type="submit"
+            onClick={() => {
+              if (typeof gtag === "function") {
+                gtag("event", "click", {
+                  event_category: "Button",
+                  event_label: "Next Button2",
+                  value: "1",
+                });
+              }
+            }}
             className="py-2 w-245 h-11  text-center font-bold bg-yellow rounded-md focus:outline-none"
             style={{
               backgroundColor: "#EFC35A",
@@ -468,6 +482,7 @@ export default function NamePage(props) {
           </button>
         </div>
       </form>
+      <Toaster/>
     </div>
   );
 }

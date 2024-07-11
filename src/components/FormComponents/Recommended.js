@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import state from "../../feature/studentRegistration/store";
-
+import { toast, Toaster } from "react-hot-toast";
 import courseData from "../../i18n/course.json";
 import Image from "next/image";
-import { toast } from "react-toastify";
+
 
 export default function Recommended(props) {
   const [isAmharic, setIsAmharic] = useState(
@@ -22,7 +22,6 @@ export default function Recommended(props) {
   const [originalCourse, setOriginalCourse] = useState(null);
   const actions = state.getState().actions;
   const selectedCourse = state.getState().studentRecommendation;
-
 
   if (recommendationArray.length === 0) {
     return (
@@ -71,12 +70,6 @@ export default function Recommended(props) {
   const findTranslatedCourse = (courseId) =>
     courseData.courses.find((course) => course._id === courseId);
 
-  const calculatePricing = () => {
-    const course = recommendationArray[selectedCourseIndex];
-    const price = course.prices[0].unitAmount / 100;
-    const session = course.Sessions;
-    return (price / session).toFixed(2);
-  };
 
   const arrStingToArray = (str) => {
     if (!str) return null;
@@ -126,18 +119,10 @@ export default function Recommended(props) {
 
     window.scrollTo({
       top: 0,
-      behavior: "smooth", // if you want a smooth scrolling effect
+      behavior: "smooth",
     });
   };
 
-  const parseJSON = (jsonString) => {
-    try {
-      return JSON.parse(jsonString);
-    } catch (error) {
-      console.error("Error parsing JSON string:", error);
-      return null;
-    }
-  };
 
   return (
     <>
@@ -159,7 +144,8 @@ export default function Recommended(props) {
                 }}
               >
                 {" "}
-               {props.selectedLocale.registerPage.click}<br /> {props.selectedLocale.registerPage.rec}{" "}
+                {props.selectedLocale.registerPage.click}
+                <br /> {props.selectedLocale.registerPage.rec}{" "}
               </span>
             </span>
           ) : (
@@ -202,8 +188,8 @@ export default function Recommended(props) {
                 <h3 className=" text-3xl font-black font-indie ">
                   {" "}
                   {isAmharic
-                  ? findTranslatedCourse(course._id)?.name ?? 
-                  course.name : course.name}{" "}
+                    ? findTranslatedCourse(course._id)?.name ?? course.name
+                    : course.name}{" "}
                 </h3>{" "}
                 <div className="pb-2 w-335 justify-center items-center flex  mt-6 mb-7">
                   <img
@@ -369,20 +355,25 @@ export default function Recommended(props) {
           <button
             onClick={() => {
               if (activeTab < recommendationArray.length - 1) {
-                // If it's not the last tab, go to the next tab
                 handleCourseSelection(activeTab + 1);
                 window.scrollTo({
                   top: 0,
-                  behavior: "smooth", // if you want a smooth scrolling effect
+                  behavior: "smooth",
                 });
               } else {
-                // If it's the last tab, go to the next page
                 props.next();
+              }
+
+              if (typeof gtag === "function") {
+                gtag("event", "click", {
+                  event_category: "Button",
+                  event_label: "Next Button",
+                });
               }
             }}
             className="bg-yellow w-245 h-48 border-solid rounded-md font-bold"
           >
-            {props.selectedLocale.registerPage.next}{" "}
+            {props.selectedLocale.registerPage.next}
           </button>{" "}
         </div>{" "}
       </div>
@@ -390,7 +381,7 @@ export default function Recommended(props) {
       <section className="flex flex-col justify-center py-10">
         <div className="sm:self-center sm:justify-self-center sm:-mt-0 flex flex-col items-center justify-center text-center mx-10">
           <h3 className="font-indie lg:text-4xl text-3xl font-extrabold text-black">
-          {props.selectedLocale.registerPage.explore}
+            {props.selectedLocale.registerPage.explore}
           </h3>
           <div className="flex pb-10 justify-center sm:-mt-16 -mt-10 ">
             <img
@@ -418,21 +409,23 @@ export default function Recommended(props) {
                 </div>
 
                 <div className="p-2 flex-grow">
-                <h3 className=" text-center text-gray-900 font-bold  text-lg mb-3 mt-3">
-                {isAmharic
-                  ? findTranslatedCourse(course._id)?.name ?? 
-                  course.name : course.name}
-                </h3>
-                <p class="mb-3 font-normal text-sm text-gray-700 dark:text-gray-400">
-                  {isAmharic
-                    ? findTranslatedCourse(course._id)?.description ??
-                  course.description: course.description}
-                </p>
-              </div>
+                  <h3 className=" text-center text-gray-900 font-bold  text-lg mb-3 mt-3">
+                    {isAmharic
+                      ? findTranslatedCourse(course._id)?.name ?? course.name
+                      : course.name}
+                  </h3>
+                  <p class="mb-3 font-normal text-sm text-gray-700 dark:text-gray-400">
+                    {isAmharic
+                      ? findTranslatedCourse(course._id)?.description ??
+                        course.description
+                      : course.description}
+                  </p>
+                </div>
               </button>
             ))}
           </div>
         </div>
+        <Toaster/>
       </section>
     </>
   );
