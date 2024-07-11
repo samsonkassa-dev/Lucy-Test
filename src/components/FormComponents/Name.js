@@ -131,19 +131,8 @@ export default function NamePage(props) {
     });
     setUserInfo(data);
 
-    toast
-      .promise(usePostStudentInfo(data), {
-        // loading: "Registering user",
-        // success: "Success",
-        error: {
-          render({ data }) {
-            return `${
-              data?.response?.data?.message ?? "something went wrong "
-            }`;
-          },
-        },
-      })
-      .then((res) => {
+ 
+    usePostStudentInfo(data).then((res) => {
         const filteredData = data.Students.map((Student) => {
           let studentData = {
             FirstName: Student.FirstName,

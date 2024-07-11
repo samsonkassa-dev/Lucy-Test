@@ -1,25 +1,27 @@
 import { Fragment, useEffect, useState, useContext } from "react";
+
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import state from "../../feature/studentRegistration/store";
-import { toast, Toaster } from "react-hot-toast";
+import { toast, toaster } from "react-hot-toast";
 import axios from "../../api/axios";
 import { useRouter } from "next/router";
 import { usePostFrequencyInfo } from "../../hooks/usePostFrequencyInfo";
 import moment from "moment";
+import { useGetTimezone } from "../../hooks/useGetTimezone";
 import { timeZones } from "../../data/timezones";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import timeParser from "dayjs/plugin/customParseFormat";
 import Frequency from "./Frequency";
 import FormContext from "./FormContext";
+import { Toaster } from "react-hot-toast";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(timeParser);
 dayjs.tz.setDefault("America/New_York");
-
 
 const defaultTimes = ["06:00 PM - 1:30 PM", "11:00 PM - 5:30 PM"];
 const availableTimes = [
@@ -48,19 +50,30 @@ const availableTimes2 = [
   },
 ];
 
+const addDays = (date, days) => {
+  var result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+};
+
 export default function DatePickerPage(props) {
+  //   const trainingFrequency = state.getState()?.studentTrainingFrequency;
   const router = useRouter();
+  const minDate = addDays(new Date(), 2);
   const [selectedTime, setSelectedTime] = useState([]);
   const [students, setStudents] = useState([]);
+  const { userOffset, userTimeZone } = useGetTimezone();
   const [selectedSession, setSelectedSession] = useState("");
   const [userDefaultTimezone, setUserDefaultTimezone] = useState(
     "AddisAbaba/Ethiopia"
   );
   const [times, setTimes] = useState(availableTimes || []);
   const [originalTimes, setOriginalTimes] = useState(availableTimes);
+  const [selectedTimezone, setSelectedTimezone] = useState(userDefaultTimezone);
   const [activeTab, setActiveTab] = useState(0);
   const { nextPage, prevPage, selectedLocale } = useContext(FormContext);
   const [clickedPrice, setClickedPrice] = useState("");
+
   useEffect(() => {
     setSelectedSession("Session1");
   }, []);
@@ -78,13 +91,19 @@ export default function DatePickerPage(props) {
     setUserDefaultTimezone("AddisAbaba/Ethiopia");
   }, [selectedSession]);
 
+  // re-run this effect when `selectedSession` changes
+  // re-run this effect when `isInputClicked` changes
 
   const recommendationArray = state.getState().studentRecommendation;
   const userId =
     state.getState()?.students?.userId || state.getState()?.students?._id;
   const studentIds = state.getState()?.students?.studentIds;
+
   const [selectedCourseIndex, setSelectedCourseIndex] = useState(0);
   const [selectedValues, setSelectedValues] = useState([]);
+
+  const [showFrequency, setShowFrequency] = useState(false);
+
   const setSelectedTap = state.getState().actions.setSelectedTap;
   const selectedTap = state.getState().selectedTap;
 
@@ -128,6 +147,11 @@ export default function DatePickerPage(props) {
   };
 
   const handleNextFreq = async (e) => {
+    // const cleanArray = (arr) =>
+    //   Array.isArray(arr) && arr.filter((item) => item);
+    // if (cleanArray(selectedValues).length !== recommendationArray.length) {
+    //   return toast.error("Make sure you selected all fields");
+    // }
     const dataToSend = selectedValues?.map((value) => {
       return {
         trainingFrequency: value.split(".")[0],
@@ -146,7 +170,7 @@ export default function DatePickerPage(props) {
           setTimeout(() => resolve("Success"), 1000)
         ),
         {
-          loading: "Updating Information user",
+          pending: "Updating Information user",
           success: "Success",
           error: {
             render({ data }) {
@@ -169,60 +193,57 @@ export default function DatePickerPage(props) {
   const handleNext = async (trainingFrequency) => {
     const cleanArray = (arr) =>
       Array.isArray(arr) && arr.filter((item) => item);
-    const filteredStudents = state
-      .getState()
-      .studentsDateData.filter((student) => student && student.time);
+    const filteredStudents = students.filter(
+      (student) => student && student.time
+    );
 
-    // console.log(recommendationArray)
+    // if (
+    //   cleanArray(students).length !== recommendationArray.length ||
+    //   filteredStudents.length !== recommendationArray.length
+    // ) {
+    //   return toast.error("Make sure you selected all fields");
+    // }
 
-    if (
-      cleanArray(state.getState().studentsDateData).length !==
-        recommendationArray.length ||
-      filteredStudents.length !== recommendationArray.length
-    ) {
-      return toast.error("Make sure you selected all fields");
-    } else {
-      const data = state.getState().studentsDateData.map((student) => {
-        return {
-          UserId: userId,
-          StudentId: student.time.split(".")[3],
-          CourseId: student.time.split(".")[2],
-          Time: student.time.split(".")[0],
-          Timezone: userDefaultTimezone,
-          timeIndex: student.time.split(".")[1],
-          StartDate: dayjs(student.selectedDate).utc().format(),
-          PaymentId: "1234",
-        };
-      });
+    const data = students.map((student) => {
+      return {
+        UserId: userId,
+        StudentId: student.time.split(".")[3],
+        CourseId: student.time.split(".")[2],
+        Time: student.time.split(".")[0],
+        Timezone: userDefaultTimezone,
+        timeIndex: student.time.split(".")[1],
+        StartDate: dayjs(student.selectedDate).utc().format(),
+        PaymentId: "1234",
+      };
+    });
 
-      const mergedData = data.map((item) => {
-        const found = trainingFrequency.find(
-          (element) =>
-            element.studentId === item.StudentId &&
-            element.courseId === item.CourseId
-        );
-        return { ...item, TrainingFrequency: found?.trainingFrequency };
-      });
-      // console.log(mergedData);
-      try {
-        await toast.promise(usePostFrequencyInfo(mergedData), {
-          loading: "Updating Information user",
-          success: "Success",
-          error: {
-            render({ data }) {
-              return `${
-                data?.response?.data?.message ?? "Something went wrong "
-              }`;
-            },
+    const mergedData = data.map((item) => {
+      const found = trainingFrequency.find(
+        (element) =>
+          element.studentId === item.StudentId &&
+          element.courseId === item.CourseId
+      );
+      return { ...item, TrainingFrequency: found?.trainingFrequency };
+    });
+
+    try {
+      await toast.promise(usePostFrequencyInfo(mergedData), {
+        loading: "Updating Information",
+        success: "Success",
+        error: {
+          render({ data }) {
+            return `${
+              data?.response?.data?.message ?? "Something went wrong "
+            }`;
           },
-        });
-        state.getState().actions.setStudentTrainingFrequency(trainingFrequency);
-        createCheckOutSession(trainingFrequency);
-      } catch (error) {
-        // Handle error
-        console.error(error);
-        toast.error("An error occurred. Please try again.");
-      }
+        },
+      });
+      state.getState().actions.setStudentTrainingFrequency(trainingFrequency);
+      createCheckOutSession(trainingFrequency);
+    } catch (error) {
+      // Handle error
+      console.error(error);
+      toast.error("An error occurred. Please try again.");
     }
   };
 
@@ -248,6 +269,32 @@ export default function DatePickerPage(props) {
     });
     // console.log(trainingFrequencyArr, "trainingFrequencyArr");
     state.getState().actions.setCheckoutSession(trainingFrequencyArr);
+    // console.log(state.getState().checkoutSession);
+
+    {
+      /* 
+  the below is for the checkout page
+
+    if(clickedPrice==="100$") {
+      props.next();
+    }else if(clickedPrice==="285$") {
+      try {
+        const { data } = await axios.post("/v1/order/createCheckout", {
+          items: trainingFrequencyArr,
+        });
+  
+        const resetSelectedCourse = state.getState().actions.resetSelectedCourse;
+        resetSelectedCourse();
+  
+        router.push(data?.url);
+      } catch (error) {
+        // Handle error
+        console.error(error);
+        toast.error("An error occurred. Please try again.");
+      }
+      }
+    }*/
+    }
 
     try {
       const { data } = await axios.post("/v1/order/createCheckout", {
@@ -286,18 +333,14 @@ export default function DatePickerPage(props) {
     // console.log(newValues);
 
     // Update the students state
-    const updatedStudents = newValues.map((newValue, index) => {
-      return {
-        ...students[index], // Ensure that students state is properly initialized
-        time: newValue,
-      };
+    setStudents((prevStudents) => {
+      return prevStudents.map((student, index) => {
+        return {
+          ...student,
+          time: newValues[index],
+        };
+      });
     });
-
-    setStudents(updatedStudents);
-    // console.log(updatedStudents)
-
-    state.getState().actions.setStudentsDateData(updatedStudents);
-    // console.log(state.getState().studentsDateData)
   };
 
   const handleRadioChangeFreq = (e) => {
@@ -323,6 +366,16 @@ export default function DatePickerPage(props) {
     setSelectedValues(newValues);
   };
 
+  const handleDateChange = (value) => {
+    setStudents((prevStudents) => {
+      return prevStudents.map((student) => {
+        return {
+          ...student,
+          selectedDate: value,
+        };
+      });
+    });
+  };
 
   const handleTapSelection = (tap) => {
     setSelectedTap(tap);
@@ -330,6 +383,9 @@ export default function DatePickerPage(props) {
     setSelectedCourseIndex(tap === 1 ? 0 : 1);
   };
 
+  useEffect(() => {
+    console.log(clickedPrice);
+  }, [clickedPrice]);
 
   return (
     <>
@@ -369,6 +425,24 @@ export default function DatePickerPage(props) {
         </div>
         {selectedTap === 1 && (
           <>
+            {/* <div className="flex flex-wrap justify-center mt-6">
+              {recommendationArray.map((course, index) => (
+                <button
+                  key={index}
+                  className={`pb-2 w-115 h-30 text-gray-2 font-medium text-lg text-center mt-3 hover:text-black 
+      ${
+        selectedCourseIndex === index
+          ? " text-black rounded-md bg-[#eedc82]" // Added a light gray background for the active tab
+          : "border-none bg-white" // Added a white background for the inactive tabs
+      }
+    pt-1 focus:outline-none`}
+                  onClick={() => handleCourseSelection(index)}
+                >
+                  {course.RecommendedFor}
+                </button>
+              ))}
+            </div> */}
+
             <div>
               <div className="flex sm:flex-row flex-col mt-10 sm:gap-x-32 sm:ml-10 justify-center items-center mb-10 w-full">
                 <div className=" h-auto flex flex-col mx-auto mt-5">
@@ -381,7 +455,7 @@ export default function DatePickerPage(props) {
                       onChange={(e) => {
                         const dateValue = e.target.getAttribute("dateValue");
                         handleRadioChangeFreq(e);
-                        // handleDateChange(dateValue);
+                        handleDateChange(dateValue);
                         setClickedPrice("300$");
                         console.log("radio button value", e.target.value);
                       }}
@@ -426,7 +500,7 @@ export default function DatePickerPage(props) {
                       onChange={(e) => {
                         const dateValue = e.target.getAttribute("dateValue");
                         handleRadioChangeFreq(e);
-                        // handleDateChange(dateValue);
+                        handleDateChange(dateValue);
                         console.log("Price clicked two");
                         setClickedPrice("300$");
                       }}
@@ -601,27 +675,14 @@ export default function DatePickerPage(props) {
                   } else {
                     props.prev();
                   }
-                  if (typeof gtag === "function") {
-                    gtag("event", "click", {
-                      event_category: "Button",
-                      event_label: "Back Button",
-                    });
-                  }
                 }}
                 className="bg-yellow w-245 h-48 border-solid rounded-md font-bold"
               >
                 {props.selectedLocale.registerPage.back}
               </button>
-
               <button
                 onClick={() => {
                   handleNextFreq();
-                  if (typeof gtag === "function") {
-                    gtag("event", "click", {
-                      event_category: "Button",
-                      event_label: "Checkout Button",
-                    });
-                  }
                 }}
                 className="bg-yellow w-245 h-48 border-solid rounded-md font-bold"
               >
@@ -630,8 +691,8 @@ export default function DatePickerPage(props) {
             </div>
           </>
         )}
-        <Toaster/>
       </div>
+      <Toaster/>
       {selectedTap === 2 && (
         <Frequency
           prev={prevPage}

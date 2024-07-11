@@ -1,7 +1,7 @@
 import { useState, useEffect, Fragment } from "react";
 import { ErrorMessage } from "@hookform/error-message";
 import { useForm, useFieldArray } from "react-hook-form";
-import { toast } from "react-toastify";
+import { toast, Toaster } from "react-hot-toast";
 import { usePostStudentInfo } from "../../hooks/usePostStudentInfo";
 import { usePostStudentRecommendation } from "../../hooks/usePostStudentRecommendation";
 import { useLocalStorage } from "@mantine/hooks";
@@ -107,7 +107,7 @@ export default function NamePage(props) {
         usePostStudentInfo(data),
         // new Promise((resolve, reject) => setTimeout(() => resolve({ data: { message: "success" } }), 10000)),
         {
-          pending: "Registering user",
+          loading: "Registering user",
           success: "Success",
           error: {
             render({ data }) {
@@ -128,7 +128,7 @@ export default function NamePage(props) {
         });
         toast
           .promise(usePostStudentRecommendation(filteredData, true), {
-            pending: "Loading",
+            loading: "Loading",
             success: "Success",
             error: {
               render({ data }) {
@@ -370,6 +370,7 @@ export default function NamePage(props) {
           </button>
         </div>
       </form>
+      <Toaster/>
     </div>
   );
 }
