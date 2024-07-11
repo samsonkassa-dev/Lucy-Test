@@ -54,7 +54,7 @@ const FeaturedCourseCard = (props) => {
 
   return (
     <div
-      className="flex flex-col gap-2 bg-white rounded-xl shadow-2xl border border-cyan-950 max-w-[25rem] lg:h-[34rem] mx-5"
+      className="flex flex-col cursor-pointer gap-2 bg-white rounded-xl shadow-2xl border border-cyan-950 max-w-[25rem] lg:h-[34rem] mx-5"
       onClick={() => {
         handleCardClick();
       }}
