@@ -1,5 +1,4 @@
 import { Fragment, useEffect, useState } from "react";
-// import { loadStripe } from "@stripe/stripe-js";
 import { DatePicker } from "@mantine/dates";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
@@ -21,8 +20,7 @@ dayjs.extend(timezone);
 dayjs.extend(timeParser);
 dayjs.tz.setDefault("America/New_York");
 
-// const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
-// const stripePromise = loadStripe(publishableKey);
+
 const defaultTimes = [
   "10:00 AM - 11:30 AM",
   "12:00 PM - 1:30 PM",
@@ -134,24 +132,10 @@ export default function DatePickerPage(props) {
     setUserDefaultTimezone(e.ianaTimeZone);
   };
 
-  // useEffect(() => {
-  //   const timesArr = timeConverter();
-  //   setTimes(timesArr);
-  // }, []);
+ 
 
   const handleNext = () => {
-    // const cleanArray = (arr) =>
-    //   Array.isArray(arr) && arr.filter((item) => item);
-    // const filteredStudents = state.getState().studentsDateData.filter(
-    //   (student) => student && student.selectedDate && student.time
-    // );
 
-    // if (
-    //   cleanArray(state.getState().studentsDateData).length !== recommendationArray.length ||
-    //   filteredStudents.length !== recommendationArray.length
-    // ) {
-    //   return toast.error("Make sure you selected all fields");
-    // }
 
     const data = state.getState().studentsDateData.map((student) => {
       return {

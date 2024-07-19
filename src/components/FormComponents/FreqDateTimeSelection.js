@@ -304,7 +304,7 @@ export default function DatePickerPage(props) {
       const resetSelectedCourse = state.getState().actions.resetSelectedCourse;
       resetSelectedCourse();
 
-      router.push(data?.url);
+      // router.push(data?.url);
     } catch (error) {
       // Handle error
       console.error(error);

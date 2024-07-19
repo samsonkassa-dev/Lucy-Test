@@ -128,33 +128,6 @@ const FeaturedCourseCard = (props) => {
             }
           })()}
         </ul>
-
-        {/* <div className="text-left font-extrabold lg:text-xl mt-5">
-          Topics Covered
-        </div>
-        <div className="flex flex-col gap-2 mt-5">
-          <div className="flex flex-row gap-5">
-            <img src="/featured_icon.svg" alt="icon" />
-            <span className="lg:text-lg">Algorithms</span>
-          </div>
-
-          <div className="flex flex-row gap-5">
-            <img src="/featured_icon.svg" alt="icon" />
-            <span className="lg:text-lg">Block based learning</span>
-          </div>
-          <div className="flex flex-row gap-5">
-            <img src="/featured_icon.svg" alt="icon" />
-            <span className="lg:text-lg">Programming</span>
-          </div>
-          <div className="flex flex-row gap-5">
-            <img src="/featured_icon.svg" alt="icon" />
-            <span className="lg:text-lg">intellectual thinking</span>
-          </div>
-          <div className="flex flex-row gap-5">
-            <img src="/featured_icon.svg" alt="icon" />
-            <span className="lg:text-lg">Loops</span>
-          </div>
-        </div> */}
       </div>
     </div>
   );
